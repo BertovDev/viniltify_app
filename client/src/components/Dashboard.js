@@ -113,7 +113,7 @@ export default function Dashboard({ code }) {
         <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
       </Container>
       {/* ThreeJs code  */}
-      <Canvas style={{height:"100vh",background:"black"}}>
+      <Canvas style={{height:"100vh",background:"black"}} camera={{ position:[0.3,3,5],fov:45 }}>
         {/* <ambientLight/> */}
         <OrbitControls />
         <Suspense fallback={null}>

@@ -16,10 +16,8 @@ function App() {
   return (
     code ? <Dashboard code={code}/> : <Login/>
     // <Canvas style={{height:"100vh"}}>
-    //   {/* <ambientLight/> */}
     //   <OrbitControls />
     //   <Suspense fallback={null}>
-    //     {/* <Model/> */}
     //     <Model2 />
     //   </Suspense>
     // </Canvas>
