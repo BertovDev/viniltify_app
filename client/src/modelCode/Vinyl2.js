@@ -16,17 +16,23 @@ function changePointer(hover){
   }
 }
 
-export function Model2(props) {
-  const animationSpeed = 0.02;
+function testClicked(vinilPlay,setVinylPlay){
+  setVinylPlay(!vinilPlay);
+}
+
+export function Model2({vinylPlay,setVinylPlay,props}) {
+  const animationSpeed = 0.04;
   const [clicked, setClicked] = useState(false);
   const [hover, setHover] = useState(false);
   const ref = useRef();
   const refDisk = useRef();
   const refDiskSupport = useRef();
   let num;
-
+  
+  
   useFrame((state,delta) => {
     num = (ref.current.rotation.y)
+    
     // pivot rotation to disk
     if(clicked && ref.current.rotation.y < 0.7){
         ref.current.rotation.y += animationSpeed
@@ -34,7 +40,7 @@ export function Model2(props) {
 
     // pivotX rotation
     if(num.toFixed(2) == 0.70){
-      ref.current.rotation.x = Math.PI + 0.05
+      ref.current.rotation.x = Math.PI + 0.09
     } else {
       ref.current.rotation.x = Math.PI
     }
@@ -44,8 +50,8 @@ export function Model2(props) {
     }
     // diskSupport and disk rotation
     if(clicked && num.toFixed(2) == 0.70){
-      refDisk.current.rotation.y += animationSpeed
-      refDiskSupport.current.rotation.y += animationSpeed;
+      refDisk.current.rotation.y += animationSpeed - 0.02
+      refDiskSupport.current.rotation.y += animationSpeed - 0.02;
     }
   },[clicked])
 
@@ -72,7 +78,7 @@ export function Model2(props) {
       <mesh geometry={nodes.Spindle.geometry} material={materials.SpindleMetal} />
       <mesh castShadow geometry={nodes.Record_Player_Body.geometry} material={materials['Record Player']} position={[0.22, -0.36, 0.17]} />
       <mesh geometry={nodes.VolumeKnob.geometry} material={materials.VolumeKnob} position={[1.39, -0.2, 0.7]} />
-      <mesh ref={ref} onPointerOver={() => {setHover(false);changePointer(hover)}} onPointerLeave={() =>{setHover(true);changePointer(hover)}} onClick={() => {setClicked(!clicked)}} geometry={nodes.ArmPivot.geometry} material={materials.TurnTableMetal} position={[1.39, 0.01, -0.56]} rotation={[-Math.PI, 0, 0]}>
+      <mesh ref={ref} onPointerOver={() => {setHover(false);changePointer(hover)}} onPointerLeave={() =>{setHover(true);changePointer(hover)}} onClick={() => {setClicked(!clicked);testClicked(vinylPlay,setVinylPlay)}} geometry={nodes.ArmPivot.geometry} material={materials.TurnTableMetal} position={[1.39, 0.01, -0.56]} rotation={[-Math.PI, 0, 0]}>
         <group position={[0, -0.07, -0.26]} rotation={[1.49, 0, 0]}>
           <mesh geometry={nodes.Cylinder004.geometry} material={materials.VolumeKnob} />
           <mesh geometry={nodes.Cylinder004_1.geometry} material={materials.TurnTableMetal} />

@@ -23,6 +23,8 @@ export default function Dashboard({ code }) {
   const [showModal, setShowModal] = useState(false);
   const [playingTrack, setPlayingTrack] = useState();
 
+  const [vinylPlay, setVinylPlay] = useState(false);
+
   function chooseTrack(track) {
     setPlayingTrack(track);
     setSearch("");
@@ -35,6 +37,10 @@ export default function Dashboard({ code }) {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
+
+  useEffect(() => {
+    console.log(vinylPlay)
+  },[vinylPlay])
 
   useEffect(() => {
     if (!search) return setSearchResults([]);
@@ -110,7 +116,7 @@ export default function Dashboard({ code }) {
           </Modal.Footer>
         </Modal>
 
-        <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
+        <Player accessToken={accessToken} trackUri={playingTrack?.uri} vinilPlay={vinylPlay}/>
       </Container>
       {/* ThreeJs code  */}
       <Canvas style={{height:"100vh",background:"black"}} camera={{ position:[0.3,3,5],fov:45 }}>
@@ -118,7 +124,7 @@ export default function Dashboard({ code }) {
         <OrbitControls />
         <Suspense fallback={null}>
           {/* <Model/> */}
-          <Model2 />
+          <Model2 vinylPlay={vinylPlay} setVinylPlay={setVinylPlay}/> 
         </Suspense>
       </Canvas>
     </>
