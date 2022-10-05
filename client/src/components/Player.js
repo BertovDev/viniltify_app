@@ -10,7 +10,9 @@ export default function Player({ accessToken, trackUri,vinilPlay }) {
     }, [trackUri])
 
     const playerButton = document.querySelector(".rswp__toggle");
-    playerButton.style.display = "none";
+    if(playerButton !== null){
+        playerButton.style.display = "none";
+    }
 
 
     if (!accessToken) return null
