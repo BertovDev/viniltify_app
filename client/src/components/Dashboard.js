@@ -12,6 +12,8 @@ import { Model2 } from "../modelCode/Vinyl2";
 import { TextureLoader } from "three";
 import DiskPlane from "./DiskPlane";
 
+// Icons
+import {Github,Linkedin,Twitter} from "react-bootstrap-icons"
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "c9833a3d046f479f9d742874913f4428",
@@ -23,6 +25,7 @@ export default function Dashboard({ code }) {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showHelpModal,setShowHelpModal] = useState(false);
   const [playingTrack, setPlayingTrack] = useState();
 
   const [vinylPlay, setVinylPlay] = useState(false);
@@ -34,6 +37,9 @@ export default function Dashboard({ code }) {
 
   const handleClose = () => setShowModal(false);
   const handleOpen = () => setShowModal(true);
+
+  const handleOpenHelp = () => setShowHelpModal(true)
+  const handleCloseHelp = () => setShowHelpModal(false)
 
   useEffect(() => {
     if (!accessToken) return;
@@ -79,7 +85,7 @@ export default function Dashboard({ code }) {
         className="d-flex flex-row gap-2 justify-content-between py-2"
         style={{ width: "100%",background:"black",cursor:"auto" }}
       >
-        <Button variant="success" style={{width:"20%"}}>How to use it</Button>
+        <Button variant="success" style={{width:"20%"}} onClick={handleOpenHelp}>How to use</Button>
 
         <Button variant="primary" style={{width:"100%"}} onClick={handleOpen}>
           Search Songs/Artists
@@ -118,7 +124,41 @@ export default function Dashboard({ code }) {
           </Modal.Footer>
         </Modal>
 
+        <Modal
+          show={showHelpModal}
+          onHide={handleCloseHelp}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          style={{cursor:"auto"}}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              How to use
+            </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <h4>Select a song</h4>
+            <p>
+              Select a song in the <b>Search Songs/Artists</b> button and then play it with the turntable,
+              play around with it to discover how!
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleCloseHelp}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+
         <Player accessToken={accessToken} trackUri={playingTrack?.uri} vinilPlay={vinylPlay}/>
+        <a href="https://github.com/BertovDev" target="_blank">
+          <Github color="white" size={35}/>
+        </a>
+        <a href="https://www.linkedin.com/in/bautista-berto/" target="_blank">
+          <Linkedin color="white" size={35}/>
+        </a>
+        <a href="https://twitter.com/tongenjs" target="_blank">
+          <Twitter color="white" size={35}/>
+        </a>
       </Container>
       {/* ThreeJs code  */}
       <Canvas style={{height:"100vh",background:"black"}} camera={{ position:[0.3,3,5],fov:45 }} shadows>
