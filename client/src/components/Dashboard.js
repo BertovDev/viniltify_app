@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useRef } from "react";
 import { Container, Form, Modal, Button } from "react-bootstrap";
 import SpotifyWebApi from "spotify-web-api-node";
 
@@ -6,7 +6,7 @@ import useAuth from "./useAuth";
 import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
 
-import { Canvas, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Loader, OrbitControls,Plane, PresentationControls } from "@react-three/drei";
 import { Model2 } from "../modelCode/Vinyl2";
 import { TextureLoader } from "three";
@@ -27,8 +27,10 @@ export default function Dashboard({ code }) {
   const [showModal, setShowModal] = useState(false);
   const [showHelpModal,setShowHelpModal] = useState(false);
   const [playingTrack, setPlayingTrack] = useState();
-
   const [vinylPlay, setVinylPlay] = useState(false);
+
+  const refControls = useRef()
+
 
   function chooseTrack(track) {
     setPlayingTrack(track);
@@ -78,6 +80,8 @@ export default function Dashboard({ code }) {
     return () => (cancel = true);
   }, [search, accessToken]);
 
+
+  console.log("VInil", vinylPlay)
 
   return (
     <>
@@ -138,18 +142,24 @@ export default function Dashboard({ code }) {
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <h4>Move the scene</h4>
+              <p>
+                Maintain left click to move the scene!
+              </p>
+              <hr/>
             <h4>Select a song</h4>
             <p>
               Select a song in the <b>Search Songs/Artists</b> button and then play it with the turntable,
               play around with it to discover how!
             </p>
+            
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={handleCloseHelp}>Close</Button>
           </Modal.Footer>
         </Modal>
 
-        <Player accessToken={accessToken} trackUri={playingTrack?.uri} vinilPlay={vinylPlay}/>
+        <Player accessToken={accessToken} trackUri={playingTrack?.uri} vinilPlay={vinylPlay} setVinilPlay={setVinylPlay}/>
         <a href="https://github.com/BertovDev" target="_blank">
           <Github color="white" size={35}/>
         </a>
@@ -161,9 +171,10 @@ export default function Dashboard({ code }) {
         </a>
       </Container>
       {/* ThreeJs code  */}
-      <Canvas style={{height:"100vh",background:"black"}} camera={{ position:[0.3,3,5],fov:45 }} shadows>
+      <Canvas style={{height:"100vh",background:"black"}} camera={{ position:[0.3,3,5],fov:45,rotation:[-0.5404195002705843,0.051404250823021816,0.03081920793238793]}} shadows>
         {/* <ambientLight/> */}
         <directionalLight intensity={0.5} castShadow color="white"/>
+        {/* <OrbitControls ref={refControls} enablePan={false} maxDistance={8}  maxPolarAngle={1.5} zoomSpeed={2}/> */}
         <Suspense fallback={null}>
           {/* <Model/> */}
           <Model2 vinylPlay={vinylPlay} setVinylPlay={setVinylPlay}/> 

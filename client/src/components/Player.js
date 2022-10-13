@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SpotifyPlayer from "react-spotify-web-playback"
 
-export default function Player({ accessToken, trackUri,vinilPlay }) {
+export default function Player({ accessToken, trackUri,vinilPlay, setVinilPlay}) {
 
     const [play, setPlay] = useState(false)
 
@@ -22,6 +22,7 @@ export default function Player({ accessToken, trackUri,vinilPlay }) {
             showSaveIcon
             callback={state => {
                 if(!state.isPlaying) setPlay(false)
+                if(!state.isPlaying && vinilPlay === true) setVinilPlay(false)
             }}
             play={vinilPlay}
             uris={trackUri ? [trackUri] : []}
