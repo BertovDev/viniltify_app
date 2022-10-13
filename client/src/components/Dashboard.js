@@ -6,10 +6,12 @@ import useAuth from "./useAuth";
 import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
 
-import { Canvas } from "@react-three/fiber";
-import { Loader, OrbitControls } from "@react-three/drei";
-import { Model } from "../modelCode/Vinyl";
+import { Canvas, useLoader } from "@react-three/fiber";
+import { Loader, OrbitControls,Plane, PresentationControls } from "@react-three/drei";
 import { Model2 } from "../modelCode/Vinyl2";
+import { TextureLoader } from "three";
+import DiskPlane from "./DiskPlane";
+
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "c9833a3d046f479f9d742874913f4428",
@@ -38,9 +40,6 @@ export default function Dashboard({ code }) {
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
 
-  useEffect(() => {
-    console.log(vinylPlay)
-  },[vinylPlay])
 
   useEffect(() => {
     if (!search) return setSearchResults([]);
@@ -52,10 +51,10 @@ export default function Dashboard({ code }) {
       if (cancel) return;
       setSearchResults(
         res.body.tracks.items.map((track) => {
-          const smallestAlbumImage = track.album.images.reduce(
-            (smallest, image) => {
-              if (image.height < smallest.height) return image;
-              return smallest;
+          const bestResolutionAlbumImage = track.album.images.reduce(
+            (bestResolution, image) => {
+              if (image.height > bestResolution.height) return image;
+              return bestResolution;
             },
             track.album.images[0]
           );
@@ -64,7 +63,7 @@ export default function Dashboard({ code }) {
             artist: track.artists[0].name,
             title: track.name,
             uri: track.uri,
-            albumUrl: smallestAlbumImage.url,
+            albumUrl: bestResolutionAlbumImage.url,
           };
         })
       );
@@ -73,13 +72,16 @@ export default function Dashboard({ code }) {
     return () => (cancel = true);
   }, [search, accessToken]);
 
+
   return (
     <>
       <Container
-        className="d-flex flex-column py-2"
-        style={{ width: "100%",background:"black" }}
+        className="d-flex flex-row gap-2 justify-content-between py-2"
+        style={{ width: "100%",background:"black",cursor:"auto" }}
       >
-        <Button variant="primary" onClick={handleOpen}>
+        <Button variant="success" style={{width:"20%"}}>How to use it</Button>
+
+        <Button variant="primary" style={{width:"100%"}} onClick={handleOpen}>
           Search Songs/Artists
         </Button>
 
@@ -119,12 +121,13 @@ export default function Dashboard({ code }) {
         <Player accessToken={accessToken} trackUri={playingTrack?.uri} vinilPlay={vinylPlay}/>
       </Container>
       {/* ThreeJs code  */}
-      <Canvas style={{height:"100vh",background:"black"}} camera={{ position:[0.3,3,5],fov:45 }}>
+      <Canvas style={{height:"100vh",background:"black"}} camera={{ position:[0.3,3,5],fov:45 }} shadows>
         {/* <ambientLight/> */}
-        <OrbitControls />
+        <directionalLight intensity={0.5} castShadow color="white"/>
         <Suspense fallback={null}>
           {/* <Model/> */}
           <Model2 vinylPlay={vinylPlay} setVinylPlay={setVinylPlay}/> 
+          <DiskPlane playingTrack={playingTrack !== undefined ? playingTrack.albumUrl : "3318.jpg" } position={[-2.7,-0.38,0]} rotation={[-Math.PI/2,0,0.8]}/>
         </Suspense>
       </Canvas>
     </>
