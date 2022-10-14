@@ -144,7 +144,7 @@ export default function Dashboard({ code }) {
         <Modal.Body>
             <h4>Move the scene</h4>
               <p>
-                Maintain left click to move the scene!
+                Maintain left click to move the scene or use the mouse wheel to zoom!
               </p>
               <hr/>
             <h4>Select a song</h4>
@@ -181,6 +181,7 @@ export default function Dashboard({ code }) {
           <DiskPlane playingTrack={playingTrack !== undefined ? playingTrack.albumUrl : "3318.jpg" } position={[-2.7,-0.38,0]} rotation={[-Math.PI/2,0,0.8]}/>
         </Suspense>
       </Canvas>
+      <Loader/>
     </>
   );
 }
