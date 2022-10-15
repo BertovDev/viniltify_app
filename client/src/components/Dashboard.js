@@ -145,7 +145,6 @@ export default function Dashboard({ code }) {
   renderLoop();
 
 
-
   return (
     <>
       <Container
@@ -246,7 +245,10 @@ export default function Dashboard({ code }) {
           </group>
         </Suspense>
       </Canvas>
-      <Loader/>
+      <Loader 
+        containerStyles={{"backgroundImage":"linear-gradient(to top, #370497, #2f0580, #27056a, #1f0555, #180341)"}}
+        innerStyles={{"fontSize":"30px"}}
+      />
     </>
   );
 }

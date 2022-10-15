@@ -163,7 +163,7 @@ export function Model2({vinylPlay,setVinylPlay,props}) {
         <mesh geometry={nodes.SPINNYBOI_4000.geometry} material={materials.LogoText} position={[-1.25, -0.15, 1.47]} />
         <mesh receiveShadow geometry={nodes.Plane.geometry} material={materials.tABLE} scale={3} position={[0, -0.39, 0]} />
 
-        <DiskPlane playingTrack={"3318.jpg"} position={[3,-0.38,-2]} rotation={[-Math.PI/2,0,-0.8]}/>
+        <DiskPlane playingTrack={"pf.jpg"} position={[3,-0.38,-2]} rotation={[-Math.PI/2,0,-0.8]}/>
         {diskArray.map(el => {
           return el;
         })}
