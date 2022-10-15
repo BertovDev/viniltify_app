@@ -12,7 +12,7 @@ export default function DiskPlane(playingTrack) {
     
     return (
 
-    <Plane position={position} rotation={rotation} scale={1.5}>
+    <Plane position={position} rotation={rotation} scale={1.5} >
         <meshStandardMaterial map={texture}/>
     </Plane>
   )

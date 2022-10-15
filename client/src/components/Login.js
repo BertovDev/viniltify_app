@@ -7,6 +7,7 @@ const AUTH_URL =
 export default function Login() {
   return (
     <Container className='d-flex justify-content-center align-items-center' style={{minHeight:"100vh"}}>
+        <h1>Welcome to Viniltify</h1>
         <a href={AUTH_URL} className="btn btn-success btn-lg">Login with Spotify</a>
     </Container>
   )
