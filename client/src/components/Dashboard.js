@@ -7,7 +7,7 @@ import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
 
 import { Canvas } from "@react-three/fiber";
-import { Html, Loader } from "@react-three/drei";
+import {Loader } from "@react-three/drei";
 import { Model2 } from "../modelCode/Vinyl2";
 import DiskPlane from "./DiskPlane";
 

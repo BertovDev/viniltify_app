@@ -2,7 +2,6 @@ import React from 'react'
 import { Container, Row,Col, Stack} from 'react-bootstrap'
 import { Github,Linkedin,Twitter } from 'react-bootstrap-icons'
 
-
 const AUTH_URL =
   "https://accounts.spotify.com/authorize?client_id=c9833a3d046f479f9d742874913f4428&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
 
