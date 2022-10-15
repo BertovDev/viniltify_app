@@ -100,7 +100,7 @@ export default function Dashboard({ code }) {
             y: 0, //desired y position to go
             z: 3.5 //desired z position to go
         }, 2500) // time take to animate
-        .delay(1000).easing(TWEEN.Easing.Quartic.InOut).start()// define delay, easing
+        .delay(700).easing(TWEEN.Easing.Quartic.InOut).start()// define delay, easing
         .onComplete(function () { //on finish animation
             TWEEN.remove(this) // remove the animation from memory
         })
@@ -110,7 +110,7 @@ export default function Dashboard({ code }) {
           y: 5.5, //desired y position to go
           z: 0 //desired z position to go
       }, 2500) // time take to animate
-      .delay(2000).easing(TWEEN.Easing.Quartic.InOut).start() // define delay, easing
+      .delay(1400).easing(TWEEN.Easing.Quartic.InOut).start() // define delay, easing
       .onComplete(function () { //on finish animation
           TWEEN.remove(this) // remove the animation from memory
       })
