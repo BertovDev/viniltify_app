@@ -9,7 +9,7 @@ export default function Login() {
   return (
     <Container className='d-flex flex-column justify-content-center align-items-center' style={{minHeight:"100vh",color:"white",paddingBottom:"200px"}}>
         <h1 className='mb-2' style={{fontSize:"100px"}}>Viniltify</h1>
-        <h3 className='text-center'>Play your favorites songs in a turntable!</h3>
+        <h3 className='text-center'>Play your favorite songs in a turntable!</h3>
         <a href={AUTH_URL} className="btn btn-success btn-lg mt-4">Login with Spotify</a>
         <Row>
           <Col className='mt-3'>

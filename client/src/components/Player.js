@@ -22,7 +22,7 @@ export default function Player({ accessToken, trackUri,vinilPlay, setVinilPlay})
             showSaveIcon
             callback={state => {
                 if(!state.isPlaying) setPlay(false)
-                if(!state.isPlaying && vinilPlay === true) setVinilPlay(false)
+                if(!state.isPlaying && vinilPlay === true) {setVinilPlay(play)}
             }}
             play={vinilPlay}
             uris={trackUri ? [trackUri] : []}

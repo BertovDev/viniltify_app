@@ -17,8 +17,6 @@ function changePointer(hover){
   }
 }
 
-
-
 function createDiskCollection(){
   let array = []
   let imgArray = ["sm.jpg","as.jpg","ep.jpg","pts.jpg","sa.jpg"];
@@ -32,7 +30,7 @@ function createDiskCollection(){
     const y = (Math.random() * (0.38 - 0.40) ) + 0.38
     const rotation = (Math.random() - 0.5) * 4
 
-    array.push(<DiskPlane playingTrack={imgArray[i]} position={[x,-y,z]} rotation={[-Math.PI/2,0,rotation]}/>)
+    array.push(<DiskPlane key={i} playingTrack={imgArray[i]} position={[x,-y,z]} rotation={[-Math.PI/2,0,rotation]}/>)
   }
 
   return array;
@@ -57,7 +55,8 @@ export function Model2({vinylPlay,setVinylPlay,props}) {
   let num;
 
   const {camera} = useThree()
-    
+
+
   useEffect(() => {
     setClicked(vinylPlay);
   },[vinylPlay])
@@ -88,6 +87,7 @@ export function Model2({vinylPlay,setVinylPlay,props}) {
     .onComplete(function () { //on finish animation
       TWEEN.remove(this) // remove the animation from memory
     })
+
   },[])
 
 
@@ -118,7 +118,6 @@ export function Model2({vinylPlay,setVinylPlay,props}) {
     if(clicked){
       refLight.current.rotation.y += 0.02
     }
-
 
   },[clicked])
 
