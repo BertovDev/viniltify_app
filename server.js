@@ -6,6 +6,8 @@ const SpotifyWebApi = require("spotify-web-api-node")
 
 const app = express()
 
+const PORT = process.env.PORT || 3001;
+
 app.use(cors())
 app.use(bodyParser.json())
 
