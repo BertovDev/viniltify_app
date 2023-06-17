@@ -6,7 +6,7 @@
   "engines": {
     "node": "16.16.0"
   },
-  "cacheDirectories":[
+  "cacheDirectories": [
     "node_modules",
     "client/node_modules"
   ],
@@ -20,11 +20,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.2.2",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.1",
-    "spotify-web-api-node": "^5.0.2"
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

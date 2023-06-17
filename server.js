@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require("express")
 const cors = require("cors")
 const bodyParser = require("body-parser")
-const SpotifyWebApi = require("spotify-web-api-node")
 const path = require("path")
+const axios = require("axios")
 
 const app = express()
 
@@ -13,52 +13,22 @@ app.use(express.static(path.resolve(__dirname, "./client/build")))
 app.use(cors())
 app.use(bodyParser.json())
 
-app.post("/refresh", (req, res) => {
-    const refreshToken = req.body.refreshToken
-    const spotifyApi = new SpotifyWebApi({
-        redirectUri: process.env.FRONTEND_URI,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken,
-    })
+const options = {
+    method: 'GET',
+    url: 'https://shazam.p.rapidapi.com/search',
+    params: {term: 'red hot chilli peppers', locale: 'en-US', offset: '0', limit: '5'},
+    headers: {
+      'X-RapidAPI-Key': 'a35e69861fmshb29a9931dd32468p1c65c8jsn5764d4fcb43e',
+      'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
+    }
+  };
+  
+  axios.request(options).then(function (response) {
+      console.log(response.data.tracks.hits[0].track.hub);
+  }).catch(function (error) {
+      console.error(error);
+  });
 
-    spotifyApi.refreshAccessToken().then(
-        (data) => {
-            res.json({
-                accessToken: data.body.access_token,
-                expiresIn: data.body.expires_in,
-            })
-        }).catch((err) => {
-
-            res.sendStatus(400)
-        });
-})
-
-
-
-app.post("/login", (req, res) => {
-    const code = req.body.code;
-
-    const spotifyApi = new SpotifyWebApi({
-        redirectUri: process.env.FRONTEND_URI,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-    })
-
-    spotifyApi
-        .authorizationCodeGrant(code)
-        .then(data => {
-            res.json({
-                accessToken: data.body.access_token,
-                refreshToken: data.body.refresh_token,
-                expiresIn: data.body.expires_in,
-            })
-        })
-        .catch(err => {
-            console.log(err)
-            res.sendStatus(400)
-        })
-})
 
 app.get("*",(req,res) => {
     res.sendFile(path.resolve(__dirname,"./client/build","index.html"))

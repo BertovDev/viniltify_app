@@ -9,7 +9,7 @@ export default function useAuth(code) {
 
     // const PORT = process.env.PORT || "http://localhost:3001";
 
-    const LOGIN_URI = process.env.NODE_ENV !== "production" ? "http://localhost:3001" : "https://viniltify.onrender.com";
+    const LOGIN_URI = process.env.NODE_ENV !== "production" ? "http://localhost:3001" : "http://localhost:3001";
 
     useEffect(() => {
         axios.post(`${LOGIN_URI}/login`, {
