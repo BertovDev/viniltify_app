@@ -84,8 +84,7 @@ export function Model2({ vinylPlay, setVinylPlay, props }) {
 
   useEffect(() => {
     setClicked(vinylPlay);
-    if (vinylPlay == true) {
-      console.log(sound);
+    if (vinylPlay) {
       sound.play();
     } else {
       sound.pause();
@@ -143,8 +142,11 @@ export function Model2({ vinylPlay, setVinylPlay, props }) {
   useEffect(() => {
     audioLoader.load(track, function (buffer) {
       setBuffer(buffer);
-      console.log(buffer);
       sound.setBuffer(buffer);
+      if (sound.source != null) {
+        sound.stop();
+        setVinylPlay(!vinylPlay);
+      }
       sound.setVolume(0.5);
     });
   }, [track]);
