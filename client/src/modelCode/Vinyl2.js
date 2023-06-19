@@ -28,19 +28,27 @@ let musicArray = [
   "music/Hey.mp3",
   "music/TheDream.mp3",
   "music/JuicyOnes.mp3",
+  "music/Pigs.mp3",
 ];
 
 function createDiskCollection() {
   let array = [];
-  let imgArray = ["sm.jpg", "sa.jpg", "pts.jpg", "ep.jpg", "as.jpg"];
+  let imgArray = ["sm.jpg", "sa.jpg", "pts.jpg", "ep.jpg", "pf.jpg"];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < imgArray.length; i++) {
     const angle = Math.random() * Math.PI * 2;
     const radius = 2.5 + Math.random() * 4.5;
-    const x = Math.cos(angle) * radius;
-    const z = (0.3 + Math.abs(Math.sin(angle) * radius)) * -1;
-    const y = Math.random() * (0.38 - 0.4) + 0.38;
-    const rotation = (Math.random() - 0.5) * 4;
+    let x = Math.cos(angle) * radius;
+    let z = (0.3 + Math.abs(Math.sin(angle) * radius)) * -1;
+    let y = Math.random() * (0.38 - 0.4) + 0.38;
+    let rotation = (Math.random() - 0.5) * 4;
+
+    if (i == imgArray.length - 1) {
+      x = 3;
+      y = 0.38;
+      z = -2;
+      rotation = -0.8;
+    }
 
     array.push(
       <DiskPlane
@@ -96,54 +104,54 @@ export function Model2({ vinylPlay, setVinylPlay, props }) {
     document.body.style.cursor = "grab";
     refControls.current.enabled = false;
 
-    new TWEEN.Tween(camera.position.set(0.1, 1.5, 1))
-      .to(
-        {
-          // from camera position
-          x: 0.3, //desired x position to go
-          y: 3, //desired y position to go
-          z: 5, //desired z position to go
-        },
-        5500
-      ) // time take to animate
-      .delay(1000)
-      .easing(TWEEN.Easing.Quartic.InOut)
-      .start() // define delay, easing
-      .onComplete(function () {
-        //on finish animation
-        refControls.current.enabled = true;
-        TWEEN.remove(this); // remove the animation from memory
-      });
+    // new TWEEN.Tween(camera.position.set(0.1, 1.5, 1))
+    //   .to(
+    //     {
+    //       // from camera position
+    //       x: 0.3, //desired x position to go
+    //       y: 3, //desired y position to go
+    //       z: 5, //desired z position to go
+    //     },
+    //     5500
+    //   ) // time take to animate
+    //   .delay(1000)
+    //   .easing(TWEEN.Easing.Quartic.InOut)
+    //   .start() // define delay, easing
+    //   .onComplete(function () {
+    //     //on finish animation
+    //     refControls.current.enabled = true;
+    //     TWEEN.remove(this); // remove the animation from memory
+    //   });
 
-    new TWEEN.Tween(
-      camera.rotation.set(
-        camera.rotation.x - 0.5,
-        camera.rotation.y,
-        camera.rotation.z
-      )
-    )
-      .to(
-        {
-          x: -0.5404195002705843,
-          y: camera.rotation.y,
-          z: camera.rotation.z,
-        },
-        5500
-      )
-      .delay(1000)
-      .easing(TWEEN.Easing.Quartic.InOut)
-      .start()
-      .onComplete(function () {
-        //on finish animation
-        TWEEN.remove(this); // remove the animation from memory
-      });
+    // new TWEEN.Tween(
+    //   camera.rotation.set(
+    //     camera.rotation.x - 0.5,
+    //     camera.rotation.y,
+    //     camera.rotation.z
+    //   )
+    // )
+    //   .to(
+    //     {
+    //       x: -0.5404195002705843,
+    //       y: camera.rotation.y,
+    //       z: camera.rotation.z,
+    //     },
+    //     5500
+    //   )
+    //   .delay(1000)
+    //   .easing(TWEEN.Easing.Quartic.InOut)
+    //   .start()
+    //   .onComplete(function () {
+    //     //on finish animation
+    //     TWEEN.remove(this); // remove the animation from memory
+    //   });
   }, []);
 
   useEffect(() => {
     audioLoader.load(track, function (buffer) {
       setBuffer(buffer);
       sound.setBuffer(buffer);
-      if (sound.source != null) {
+      if (sound.source != null && sound.isPlaying) {
         sound.stop();
         setVinylPlay(!vinylPlay);
       }
@@ -292,11 +300,6 @@ export function Model2({ vinylPlay, setVinylPlay, props }) {
         position={[0, -0.39, 0]}
       />
 
-      <DiskPlane
-        playingTrack={"pf.jpg"}
-        position={[3, -0.38, -2]}
-        rotation={[-Math.PI / 2, 0, -0.8]}
-      />
       {diskArray.map((el) => {
         return (
           <group
