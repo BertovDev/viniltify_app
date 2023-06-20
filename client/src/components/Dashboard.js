@@ -148,7 +148,7 @@ export default function Dashboard() {
           variant="dark"
           className="container fs-4 text-dark d-flex justify-content-start"
         >
-          Current playing : {currentPlaying.split("music/")}
+          Song selected: {currentPlaying.split("music/")}
         </Alert>
 
         <Modal

@@ -23,19 +23,48 @@ function changePointer(hover) {
   }
 }
 
-let musicArray = [
-  "music/have-you-ever.mp3",
-  "music/Hey.mp3",
-  "music/TheDream.mp3",
-  "music/JuicyOnes.mp3",
-  "music/Pigs.mp3",
+let musicObject = [
+  {
+    id: 0,
+    name: "Have you ever",
+    artist: "The Offspring",
+    img: "sm.jpg",
+    song: "music/have-you-ever.mp3",
+  },
+  {
+    id: 1,
+    name: "Hey",
+    artist: "Red Hot Chilli Peppers",
+    img: "sa.jpg",
+    song: "music/Hey.mp3",
+  },
+  {
+    id: 2,
+    name: "The dream",
+    artist: "Turnstile",
+    img: "pts.jpg",
+    song: "music/TheDream.mp3",
+  },
+  {
+    id: 3,
+    name: "Juicy Ones",
+    artist: "Sticky Fingers",
+    img: "ep.jpg",
+    song: "music/JuicyOnes.mp3",
+  },
+  {
+    id: 4,
+    name: "Pigs",
+    artist: "Pink Floyd",
+    img: "pf.jpg",
+    song: "music/Pigs.mp3",
+  },
 ];
 
 function createDiskCollection() {
   let array = [];
-  let imgArray = ["sm.jpg", "sa.jpg", "pts.jpg", "ep.jpg", "pf.jpg"];
 
-  for (let i = 0; i < imgArray.length; i++) {
+  musicObject.forEach((el, index) => {
     const angle = Math.random() * Math.PI * 2;
     const radius = 2.5 + Math.random() * 4.5;
     let x = Math.cos(angle) * radius;
@@ -43,23 +72,24 @@ function createDiskCollection() {
     let y = Math.random() * (0.38 - 0.4) + 0.38;
     let rotation = (Math.random() - 0.5) * 4;
 
-    if (i == imgArray.length - 1) {
+    if (index == musicObject.length - 1) {
       x = 3;
       y = 0.38;
       z = -2;
       rotation = -0.8;
     }
 
+    console.log(el);
+
     array.push(
       <DiskPlane
-        key={i}
-        playingTrack={imgArray[i]}
+        key={el.id}
+        playingTrack={el.img}
         position={[x, -y, z]}
         rotation={[-Math.PI / 2, 0, rotation]}
       />
     );
-  }
-
+  });
   return array;
 }
 
@@ -77,7 +107,11 @@ export function Model2({ vinylPlay, setVinylPlay, setCurrentPlaying, props }) {
   const [hover, setHover] = useState(false);
   const [diskArray, setDiskArray] = useState([]);
   const [buffer, setBuffer] = useState();
-  const [track, setTrack] = useState("/music/Hey.mp3");
+  const [track, setTrack] = useState({
+    song: "/music/Hey.mp3",
+    artist: "Red Hot chilli Peppers",
+    name: "Hey",
+  });
 
   const ref = useRef();
   const refLight = useRef();
@@ -94,7 +128,6 @@ export function Model2({ vinylPlay, setVinylPlay, setCurrentPlaying, props }) {
     setClicked(vinylPlay);
     if (vinylPlay) {
       sound.play();
-      setCurrentPlaying(track);
     } else {
       sound.pause();
     }
@@ -149,10 +182,11 @@ export function Model2({ vinylPlay, setVinylPlay, setCurrentPlaying, props }) {
   }, []);
 
   useEffect(() => {
-    audioLoader.load(track, function (buffer) {
+    audioLoader.load(track.song, function (buffer) {
       setBuffer(buffer);
       console.log(buffer);
       sound.setBuffer(buffer);
+      setCurrentPlaying(track.name + " - " + track.artist);
       if (sound.source != null && sound.isPlaying) {
         sound.stop();
         setVinylPlay(!vinylPlay);
@@ -314,7 +348,13 @@ export function Model2({ vinylPlay, setVinylPlay, setCurrentPlaying, props }) {
               setHover(true);
               changePointer(hover);
             }}
-            onClick={() => setTrack(musicArray[el.key])}
+            onClick={() =>
+              setTrack({
+                song: musicObject[el.key].song,
+                name: musicObject[el.key].name,
+                artist: musicObject[el.key].artist,
+              })
+            }
           >
             {el}
           </group>
