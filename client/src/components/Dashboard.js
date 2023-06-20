@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense, useRef } from "react";
-import { Container, Form, Modal, Button } from "react-bootstrap";
+import { Container, Form, Modal, Button, Alert } from "react-bootstrap";
 
 import TrackSearchResult from "./TrackSearchResult";
 
@@ -25,6 +25,7 @@ export default function Dashboard() {
   const [playingTrack, setPlayingTrack] = useState();
   const [vinylPlay, setVinylPlay] = useState(false);
   const [diskInfo, setDiskInfo] = useState({ clicked: false, timesClicked: 0 });
+  const [currentPlaying, setCurrentPlaying] = useState("");
 
   const refDiskInfo = useRef();
 
@@ -135,13 +136,20 @@ export default function Dashboard() {
           How to use
         </Button>
 
-        <Button
+        {/* <Button
           variant="primary"
           style={{ width: "100%" }}
           onClick={handleOpen}
         >
           Search Songs/Artists
-        </Button>
+        </Button> */}
+        <Alert
+          style={{ height: "100%", marginBottom: 0 }}
+          variant="dark"
+          className="container fs-4 text-dark d-flex justify-content-start"
+        >
+          Current playing : {currentPlaying.split("music/")}
+        </Alert>
 
         <Modal
           show={showModal}
@@ -235,7 +243,11 @@ export default function Dashboard() {
         {/* <OrbitControls ref={refControls} enablePan={false} maxDistance={8}  maxPolarAngle={1.5} zoomSpeed={2}/> */}
         <Suspense fallback={null}>
           {/* <Model/> */}
-          <Model2 vinylPlay={vinylPlay} setVinylPlay={setVinylPlay} />
+          <Model2
+            vinylPlay={vinylPlay}
+            setVinylPlay={setVinylPlay}
+            setCurrentPlaying={setCurrentPlaying}
+          />
           <group
             ref={refDiskInfo}
             position={[0, 0, 0]}

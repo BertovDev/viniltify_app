@@ -71,7 +71,7 @@ const listener = new THREE.AudioListener();
 const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
-export function Model2({ vinylPlay, setVinylPlay, props }) {
+export function Model2({ vinylPlay, setVinylPlay, setCurrentPlaying, props }) {
   const animationSpeed = 0.04;
   const [clicked, setClicked] = useState(false);
   const [hover, setHover] = useState(false);
@@ -94,6 +94,7 @@ export function Model2({ vinylPlay, setVinylPlay, props }) {
     setClicked(vinylPlay);
     if (vinylPlay) {
       sound.play();
+      setCurrentPlaying(track);
     } else {
       sound.pause();
     }
@@ -150,6 +151,7 @@ export function Model2({ vinylPlay, setVinylPlay, props }) {
   useEffect(() => {
     audioLoader.load(track, function (buffer) {
       setBuffer(buffer);
+      console.log(buffer);
       sound.setBuffer(buffer);
       if (sound.source != null && sound.isPlaying) {
         sound.stop();
