@@ -5,11 +5,9 @@ import Login from "./components/Login.js";
 import Dashboard from "./components/Dashboard.js";
 
 
-const code = new URLSearchParams(window.location.search).get("code");
-
 function App() {
   return (
-    code ? <Dashboard code={code}/> : <Login/>
+    <Dashboard/>
     // <Canvas style={{height:"100vh"}}>
     //   <OrbitControls />
     //   <Suspense fallback={null}>

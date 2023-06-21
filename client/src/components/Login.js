@@ -2,8 +2,10 @@ import React from 'react'
 import { Container, Row,Col, Stack} from 'react-bootstrap'
 import { Github,Linkedin,Twitter } from 'react-bootstrap-icons'
 
+const LOGIN_URI = process.env.NODE_ENV !== "production" ? "http://localhost:3000" : "https://viniltify.onrender.com";
+
 const AUTH_URL =
-  "https://accounts.spotify.com/authorize?client_id=c9833a3d046f479f9d742874913f4428&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
+  `https://accounts.spotify.com/authorize?client_id=c9833a3d046f479f9d742874913f4428&response_type=code&redirect_uri=${LOGIN_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`
 
 export default function Login() {
   return (

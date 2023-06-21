@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 
+
 export default function useAuth(code) {
     const [accessToken, setAccessToken] = useState()
     const [refreshToken, setRefreshToken] = useState()
     const [expiresIn, setExpiresIn] = useState()
 
+    // const PORT = process.env.PORT || "http://localhost:3001";
+
+    const LOGIN_URI = process.env.NODE_ENV !== "production" ? "http://localhost:3001" : "http://localhost:3001";
 
     useEffect(() => {
-        axios.post("http://localhost:3001/login", {
+        axios.post(`${LOGIN_URI}/login`, {
             code,
         }).then(res => {
             setAccessToken(res.data.accessToken)
@@ -25,7 +29,7 @@ export default function useAuth(code) {
         if (!refreshToken || !expiresIn) return
         const interval = setInterval(() => {
           axios
-            .post("http://localhost:3001/refresh", {
+            .post(`${LOGIN_URI}/refresh`, {
               refreshToken,
             })
             .then(res => {
