@@ -1,5 +1,12 @@
 import React, { useState, useEffect, Suspense, useRef } from "react";
-import { Container, Form, Modal, Button, Alert } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Modal,
+  Button,
+  Alert,
+  ProgressBar,
+} from "react-bootstrap";
 
 import TrackSearchResult from "./TrackSearchResult";
 
@@ -9,7 +16,7 @@ import { Model2 } from "../modelCode/Vinyl2";
 import DiskPlane from "./DiskPlane";
 
 // Icons
-import { Github, Linkedin, Twitter } from "react-bootstrap-icons";
+import { Coin, Github, Linkedin, Twitter } from "react-bootstrap-icons";
 import { useControls } from "leva";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min";
 
@@ -26,6 +33,7 @@ export default function Dashboard() {
   const [vinylPlay, setVinylPlay] = useState(false);
   const [diskInfo, setDiskInfo] = useState({ clicked: false, timesClicked: 0 });
   const [currentPlaying, setCurrentPlaying] = useState("");
+  const [currentState, setCurrentState] = useState();
 
   const refDiskInfo = useRef();
 
@@ -120,6 +128,10 @@ export default function Dashboard() {
     }
   }, [diskInfo]);
 
+  useEffect(() => {
+    console.log(currentState);
+  }, [currentState]);
+
   renderLoop();
 
   return (
@@ -144,11 +156,21 @@ export default function Dashboard() {
           Search Songs/Artists
         </Button> */}
         <Alert
-          style={{ height: "100%", marginBottom: 0 }}
+          style={{
+            height: "100%",
+            marginBottom: 0,
+          }}
           variant="dark"
-          className="container fs-4 text-dark d-flex justify-content-start"
+          className="container fs-4 text-dark d-flex justify-content-center"
         >
-          Song selected: {currentPlaying.split("music/")}
+          <div
+            style={{
+              color: "#0f1d5a",
+            }}
+          >
+            Song selected:{" "}
+            <span style={{ paddingLeft: "10px" }}> {currentPlaying}</span>
+          </div>
         </Alert>
 
         <Modal
@@ -216,15 +238,35 @@ export default function Dashboard() {
         </Modal>
 
         {/* <Player accessToken={accessToken} trackUri={playingTrack?.uri} vinilPlay={vinylPlay} setVinilPlay={setVinylPlay}/> */}
-        <a href="https://github.com/BertovDev" target="_blank">
-          <Github color="white" size={35} />
-        </a>
-        <a href="https://www.linkedin.com/in/bautista-berto/" target="_blank">
-          <Linkedin color="white" size={35} />
-        </a>
-        <a href="https://twitter.com/tongenjs" target="_blank">
-          <Twitter color="white" size={35} />
-        </a>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <a
+            style={{ padding: "0 10px" }}
+            href="https://github.com/BertovDev"
+            target="_blank"
+          >
+            <Github color="white" size={35} />
+          </a>
+          <a
+            style={{ padding: "0 10px" }}
+            href="https://www.linkedin.com/in/bautista-berto/"
+            target="_blank"
+          >
+            <Linkedin color="white" size={35} />
+          </a>
+          <a
+            style={{ padding: "0 10px" }}
+            href="https://twitter.com/tongenjs"
+            target="_blank"
+          >
+            <Twitter color="white" size={35} />
+          </a>
+        </div>
       </Container>
       {/* ThreeJs code  */}
       <Canvas
@@ -247,6 +289,7 @@ export default function Dashboard() {
             vinylPlay={vinylPlay}
             setVinylPlay={setVinylPlay}
             setCurrentPlaying={setCurrentPlaying}
+            setCurrentState={setCurrentState}
           />
           <group
             ref={refDiskInfo}

@@ -101,7 +101,13 @@ const listener = new THREE.AudioListener();
 const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
-export function Model2({ vinylPlay, setVinylPlay, setCurrentPlaying, props }) {
+export function Model2({
+  vinylPlay,
+  setVinylPlay,
+  setCurrentPlaying,
+  setCurrentState,
+  props,
+}) {
   const animationSpeed = 0.04;
   const [clicked, setClicked] = useState(false);
   const [hover, setHover] = useState(false);
@@ -138,61 +144,67 @@ export function Model2({ vinylPlay, setVinylPlay, setCurrentPlaying, props }) {
     document.body.style.cursor = "grab";
     refControls.current.enabled = false;
 
-    // new TWEEN.Tween(camera.position.set(0.1, 1.5, 1))
-    //   .to(
-    //     {
-    //       // from camera position
-    //       x: 0.3, //desired x position to go
-    //       y: 3, //desired y position to go
-    //       z: 5, //desired z position to go
-    //     },
-    //     5500
-    //   ) // time take to animate
-    //   .delay(1000)
-    //   .easing(TWEEN.Easing.Quartic.InOut)
-    //   .start() // define delay, easing
-    //   .onComplete(function () {
-    //     //on finish animation
-    //     refControls.current.enabled = true;
-    //     TWEEN.remove(this); // remove the animation from memory
-    //   });
+    new TWEEN.Tween(camera.position.set(0.1, 1.5, 1))
+      .to(
+        {
+          // from camera position
+          x: 0.3, //desired x position to go
+          y: 3, //desired y position to go
+          z: 5, //desired z position to go
+        },
+        5500
+      ) // time take to animate
+      .delay(1000)
+      .easing(TWEEN.Easing.Quartic.InOut)
+      .start() // define delay, easing
+      .onComplete(function () {
+        //on finish animation
+        refControls.current.enabled = true;
+        TWEEN.remove(this); // remove the animation from memory
+      });
 
-    // new TWEEN.Tween(
-    //   camera.rotation.set(
-    //     camera.rotation.x - 0.5,
-    //     camera.rotation.y,
-    //     camera.rotation.z
-    //   )
-    // )
-    //   .to(
-    //     {
-    //       x: -0.5404195002705843,
-    //       y: camera.rotation.y,
-    //       z: camera.rotation.z,
-    //     },
-    //     5500
-    //   )
-    //   .delay(1000)
-    //   .easing(TWEEN.Easing.Quartic.InOut)
-    //   .start()
-    //   .onComplete(function () {
-    //     //on finish animation
-    //     TWEEN.remove(this); // remove the animation from memory
-    //   });
+    new TWEEN.Tween(
+      camera.rotation.set(
+        camera.rotation.x - 0.5,
+        camera.rotation.y,
+        camera.rotation.z
+      )
+    )
+      .to(
+        {
+          x: -0.5404195002705843,
+          y: camera.rotation.y,
+          z: camera.rotation.z,
+        },
+        5500
+      )
+      .delay(1000)
+      .easing(TWEEN.Easing.Quartic.InOut)
+      .start()
+      .onComplete(function () {
+        //on finish animation
+        TWEEN.remove(this); // remove the animation from memory
+      });
   }, []);
 
   useEffect(() => {
-    audioLoader.load(track.song, function (buffer) {
-      setBuffer(buffer);
-      console.log(buffer);
-      sound.setBuffer(buffer);
-      setCurrentPlaying(track.name + " - " + track.artist);
-      if (sound.source != null && sound.isPlaying) {
-        sound.stop();
-        setVinylPlay(!vinylPlay);
+    audioLoader.load(
+      track.song,
+      function (buffer) {
+        sound.setBuffer(buffer);
+        setBuffer(buffer);
+        setCurrentPlaying(track.name + " - " + track.artist);
+        if (sound.source != null && sound.isPlaying) {
+          sound.stop();
+          setVinylPlay(!vinylPlay);
+        }
+        sound.setVolume(0.5);
+      },
+      function (xhr) {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        setCurrentState((xhr.loaded / xhr.total) * 100);
       }
-      sound.setVolume(0.5);
-    });
+    );
   }, [track]);
 
   useFrame(
