@@ -56,8 +56,6 @@ export function createDiskCollection() {
       rotation = -0.8;
     }
 
-    console.log(el);
-
     array.push(
       <DiskPlane
         key={el.id}

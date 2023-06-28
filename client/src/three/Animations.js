@@ -16,7 +16,7 @@ export function InitAnimation(camera, refControls) {
     .start() // define delay, easing
     .onComplete(function () {
       //on finish animation
-      refControls.current.enabled = true;
+      refControls.current.enabled = true; // reactivate controls
       TWEEN.remove(this); // remove the animation from memory
     });
   new TWEEN.Tween(
