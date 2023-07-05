@@ -4,13 +4,16 @@ import {
   PerspectiveCamera,
   SpotLight,
   OrbitControls,
+  PointMaterial,
+  Point,
+  Points,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
 import * as THREE from "three";
 import { createDiskCollection } from "../three/CreateDiskCollection";
 import { musicTracks } from "../three/CreateDiskCollection";
-import { InitAnimation } from "../three/Animations";
+import { InitAnimation, InitMusicParticle } from "../three/Animations";
 import Lights from "../three/Lights";
 
 function changePointer(hover) {
@@ -48,10 +51,11 @@ export function Model2({
   const refDisk = useRef();
   const refDiskSupport = useRef();
   const refControls = useRef();
+  const refParticle = useRef();
 
   let num;
 
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   camera.add(listener);
 
   useEffect(() => {
@@ -66,8 +70,8 @@ export function Model2({
   useEffect(() => {
     setDiskArray(createDiskCollection());
     document.body.style.cursor = "grab";
-    refControls.current.enabled = false;
-    InitAnimation(camera, refControls);
+    refControls.current.enabled = true;
+    // InitAnimation(camera, refControls);
   }, []);
 
   useEffect(() => {
@@ -116,6 +120,7 @@ export function Model2({
 
       if (clicked) {
         refLight.current.rotation.y += 0.02;
+        console.log(refParticle.current.position.y);
       }
     },
     [clicked]
@@ -249,6 +254,17 @@ export function Model2({
           </group>
         );
       })}
+      <Points>
+        <PointMaterial
+          vertexColors
+          size={35}
+          sizeAttenuation={false}
+          depthWrite={true}
+          toneMapped={false}
+        >
+          <Point ref={refParticle} color={"orange"} position={[-1, 0, -1]} />
+        </PointMaterial>
+      </Points>
       <Lights refLight={refLight} />
     </group>
   );
