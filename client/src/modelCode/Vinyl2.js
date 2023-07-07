@@ -57,6 +57,7 @@ export function Model2({
 
   let num;
   let positionAux = 0.01;
+  let positionXAux = Math.asin(1) * 0.5;
   const textureLoader = new THREE.TextureLoader();
   const particleTexture = textureLoader.load("musical-note.png");
 
@@ -125,14 +126,15 @@ export function Model2({
 
       if (clicked) {
         refLight.current.rotation.y += 0.02;
-        refParticle.current.position.y += positionAux * (delta * 20);
-        refParticle2.current.position.y += positionAux * (delta * 20);
-        refParticle3.current.position.y += positionAux * (delta * 20);
+        refParticle.current.position.y += positionAux * (delta * 40);
+        refParticle.current.position.x += positionXAux * (delta * 0.3);
         if (
-          refParticle3.current.position.y >= 1.5 ||
+          refParticle.current.position.y >= 1 ||
           refParticle.current.position.y <= 0
-        )
+        ) {
           positionAux *= -1;
+          positionXAux *= -1;
+        }
       }
     },
     [clicked]
@@ -276,8 +278,6 @@ export function Model2({
           color="white"
         >
           <Point ref={refParticle} position={[-1, 0, -1]} />
-          <Point ref={refParticle2} position={[-1, 0.5, -1]} />
-          <Point ref={refParticle3} position={[-1, 1, -1]} />
         </PointMaterial>
       </Points>
       <Lights refLight={refLight} />
