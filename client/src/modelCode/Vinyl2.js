@@ -55,6 +55,7 @@ export function Model2({
   const refParticle2 = useRef();
   const refParticle3 = useRef();
   const refParticle4 = useRef();
+  const refMaterial = useRef();
 
   let num;
   let positionAux = 0.01;
@@ -127,6 +128,8 @@ export function Model2({
       }
 
       if (clicked) {
+        refMaterial.current.material.opacity = 1;
+
         refLight.current.rotation.y += 0.02;
         refParticle.current.position.y = Math.sin(clock.getElapsedTime()) + 1.2;
         refParticle.current.position.x = Math.tan(time) - 1;
@@ -142,6 +145,8 @@ export function Model2({
         refParticle4.current.position.y =
           Math.sin(clock.getElapsedTime()) + 1.2;
         refParticle3.current.position.x = -Math.tan(time);
+      } else {
+        refMaterial.current.material.opacity = 0;
       }
     },
     [clicked]
@@ -275,7 +280,7 @@ export function Model2({
           </group>
         );
       })}
-      <Points>
+      <Points ref={refMaterial} opacity={0}>
         <PointMaterial
           transparent
           size={60}
