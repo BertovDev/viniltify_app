@@ -54,6 +54,7 @@ export function Model2({
   const refParticle = useRef();
   const refParticle2 = useRef();
   const refParticle3 = useRef();
+  const refParticle4 = useRef();
 
   let num;
   let positionAux = 0.01;
@@ -100,7 +101,8 @@ export function Model2({
   }, [track]);
 
   useFrame(
-    (state, delta) => {
+    ({ clock }) => {
+      const time = clock.getElapsedTime() / 10;
       num = ref.current.rotation.y;
 
       // pivot rotation to disk
@@ -126,15 +128,20 @@ export function Model2({
 
       if (clicked) {
         refLight.current.rotation.y += 0.02;
-        refParticle.current.position.y += positionAux * (delta * 40);
-        refParticle.current.position.x += positionXAux * (delta * 0.3);
-        if (
-          refParticle.current.position.y >= 1 ||
-          refParticle.current.position.y <= 0
-        ) {
-          positionAux *= -1;
-          positionXAux *= -1;
-        }
+        refParticle.current.position.y = Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle.current.position.x = Math.tan(time) - 1;
+
+        refParticle2.current.position.y =
+          Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle2.current.position.x = Math.cos(clock.getElapsedTime()) + 1;
+
+        refParticle3.current.position.y =
+          Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle3.current.position.x = -Math.tan(time);
+
+        refParticle4.current.position.y =
+          Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle3.current.position.x = -Math.tan(time);
       }
     },
     [clicked]
@@ -271,13 +278,17 @@ export function Model2({
       <Points>
         <PointMaterial
           transparent
-          size={1}
-          sizeAttenuation={true}
+          size={60}
           alphaMap={particleTexture}
           alphaTest={0.001}
-          color="white"
+          sizeAttenuation={false}
+          depthWrite={false}
+          toneMapped={false}
         >
           <Point ref={refParticle} position={[-1, 0, -1]} />
+          <Point ref={refParticle2} position={[1, 0, -2]} />
+          <Point ref={refParticle3} position={[-1, 0, 1]} />
+          <Point ref={refParticle4} position={[1, 0, 2]} />
         </PointMaterial>
       </Points>
       <Lights refLight={refLight} />
