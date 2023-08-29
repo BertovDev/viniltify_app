@@ -4,13 +4,16 @@ import {
   PerspectiveCamera,
   SpotLight,
   OrbitControls,
+  PointMaterial,
+  Point,
+  Points,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
 import * as THREE from "three";
 import { createDiskCollection } from "../three/CreateDiskCollection";
 import { musicTracks } from "../three/CreateDiskCollection";
-import { InitAnimation } from "../three/Animations";
+import { InitAnimation, InitMusicParticle } from "../three/Animations";
 import Lights from "../three/Lights";
 
 function changePointer(hover) {
@@ -48,10 +51,19 @@ export function Model2({
   const refDisk = useRef();
   const refDiskSupport = useRef();
   const refControls = useRef();
+  const refParticle = useRef();
+  const refParticle2 = useRef();
+  const refParticle3 = useRef();
+  const refParticle4 = useRef();
+  const refMaterial = useRef();
 
   let num;
+  let positionAux = 0.01;
+  let positionXAux = Math.asin(1) * 0.5;
+  const textureLoader = new THREE.TextureLoader();
+  const particleTexture = textureLoader.load("musical-note.png");
 
-  const { camera } = useThree();
+  const { camera, scene } = useThree();
   camera.add(listener);
 
   useEffect(() => {
@@ -66,8 +78,8 @@ export function Model2({
   useEffect(() => {
     setDiskArray(createDiskCollection());
     document.body.style.cursor = "grab";
-    refControls.current.enabled = false;
-    InitAnimation(camera, refControls);
+    refControls.current.enabled = true;
+    // InitAnimation(camera, refControls);
   }, []);
 
   useEffect(() => {
@@ -90,7 +102,8 @@ export function Model2({
   }, [track]);
 
   useFrame(
-    (state, delta) => {
+    ({ clock }) => {
+      const time = clock.getElapsedTime() / 10;
       num = ref.current.rotation.y;
 
       // pivot rotation to disk
@@ -115,7 +128,25 @@ export function Model2({
       }
 
       if (clicked) {
+        refMaterial.current.material.opacity = 1;
+
         refLight.current.rotation.y += 0.02;
+        refParticle.current.position.y = Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle.current.position.x = Math.tan(time) - 1;
+
+        refParticle2.current.position.y =
+          Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle2.current.position.x = Math.cos(clock.getElapsedTime()) + 1;
+
+        refParticle3.current.position.y =
+          Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle3.current.position.x = -Math.tan(time);
+
+        refParticle4.current.position.y =
+          Math.sin(clock.getElapsedTime()) + 1.2;
+        refParticle3.current.position.x = -Math.tan(time);
+      } else {
+        refMaterial.current.material.opacity = 0;
       }
     },
     [clicked]
@@ -249,6 +280,22 @@ export function Model2({
           </group>
         );
       })}
+      <Points ref={refMaterial} opacity={0}>
+        <PointMaterial
+          transparent
+          size={60}
+          alphaMap={particleTexture}
+          alphaTest={0.001}
+          sizeAttenuation={false}
+          depthWrite={false}
+          toneMapped={false}
+        >
+          <Point ref={refParticle} position={[-1, 0, -1]} />
+          <Point ref={refParticle2} position={[1, 0, -2]} />
+          <Point ref={refParticle3} position={[-1, 0, 1]} />
+          <Point ref={refParticle4} position={[1, 0, 2]} />
+        </PointMaterial>
+      </Points>
       <Lights refLight={refLight} />
     </group>
   );

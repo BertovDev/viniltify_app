@@ -1,4 +1,7 @@
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min";
+import { Points, Point, PointMaterial } from "@react-three/drei";
+import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
 
 export function InitAnimation(camera, refControls) {
   new TWEEN.Tween(camera.position.set(0.1, 1.5, 1))
@@ -41,4 +44,16 @@ export function InitAnimation(camera, refControls) {
       //on finish animation
       TWEEN.remove(this); // remove the animation from memory
     });
+}
+
+export function InitMusicParticle() {
+  const particleGeometry = new THREE.SphereBufferGeometry(1, 32, 32);
+  const particleMaterial = new THREE.PointsMaterial({
+    size: 0.2,
+    sizeAttenuation: true,
+    depthWrite: true,
+  });
+  const particles = new THREE.Points(particleGeometry, particleMaterial);
+
+  return particles;
 }
