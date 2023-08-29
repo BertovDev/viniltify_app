@@ -147,7 +147,7 @@ export default function Dashboard() {
     <>
       <Container
         className="d-flex flex-row gap-2 justify-content-between py-2"
-        style={{ width: "100%", cursor: "auto" }}      >
+        style={{ width: "100%", cursor: "auto"}} >
         {/* <Button
           variant="success"
           style={{ width: "20%" }}
