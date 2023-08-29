@@ -228,8 +228,8 @@ export default function Dashboard() {
             <hr />
             <h4>Select a song</h4>
             <p>
-              Select a song in the <b>Search Songs/Artists</b> button and then
-              play it with the turntable, play around with it to discover how!
+              Touch/click the vinyls to select the song and then touch/click the
+              turtable lever to play it!
             </p>
           </Modal.Body>
           <Modal.Footer>
