@@ -259,7 +259,7 @@ export default function Dashboard() {
            Playing: <span style={{color:"#fab14e",fontSize:"14px"}}>{currentPlaying}</span>
           </Col>
           <Col style={{padding:"5px 12px", color: "gray", fontSize: "15px", fontFamily: "monospace" }}>
-           Click/touch a vinyl and then the turntable lever to play the song 
+          ☝️🤓 Click/touch a vinyl and then the turntable lever to play the song 
           </Col>
           {/* <Col style={{ width:"auto",paddingTop:"10px"}}>
           <a
@@ -338,7 +338,12 @@ export default function Dashboard() {
           backgroundImage:
             "linear-gradient(to top, #370497, #2f0580, #27056a, #1f0555, #180341)",
         }}
-        innerStyles={{ fontSize: "30px" }}
+        dataInterpolation={(p) => `
+          Loading ${p.toFixed(2)}%
+          ☝️🤓 A compilation of some of my favorite songs...
+          You can move the screen by pressing it down and move
+        `} // Text
+        innerStyles={{ fontSize: "30px",display:"flex",justifyContent: "center",alignItems:"center",width:"100%"}}
       />
     </>
   );
