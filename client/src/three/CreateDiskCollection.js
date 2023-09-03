@@ -43,7 +43,7 @@ export function createDiskCollection() {
 
   musicTracks.forEach((el, index) => {
     const angle = Math.random() * Math.PI * 2;
-    const radius = 2.5 + Math.random() * 4.5;
+    const radius = 2.5 + Math.random() * 4;
     let x = Math.cos(angle) * radius;
     let z = (0.3 + Math.abs(Math.sin(angle) * radius)) * -1;
     let y = Math.random() * (0.38 - 0.4) + 0.38;
@@ -55,7 +55,6 @@ export function createDiskCollection() {
       z = -2;
       rotation = -0.8;
     }
-
 
     array.push(
       <DiskPlane

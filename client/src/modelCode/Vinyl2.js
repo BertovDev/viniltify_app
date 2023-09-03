@@ -39,6 +39,7 @@ export function Model2({
   const animationSpeed = 0.04;
   const [clicked, setClicked] = useState(false);
   const [hover, setHover] = useState(false);
+  const [diskHover, setDiskHover] = useState(false);
   const [diskArray, setDiskArray] = useState([]);
   const [track, setTrack] = useState({
     song: musicTracks[0].song,
@@ -65,7 +66,8 @@ export function Model2({
 
   let hoverMaterial = new THREE.MeshStandardMaterial();
   hoverMaterial.colorWrite = true;
-  hoverMaterial.color = new THREE.Color("#e9c46a")
+  hoverMaterial.transparent = true;
+  hoverMaterial.opacity = 0.9;
 
   const { camera, scene } = useThree();
   camera.add(listener);
@@ -116,11 +118,11 @@ export function Model2({
       }
 
       // pivotX rotation
-      if (num.toFixed(2) == 0.72) {
-        ref.current.rotation.x = Math.PI + 0.09;
-      } else {
-        ref.current.rotation.x = Math.PI;
-      }
+      // if (num.toFixed(2) == 0.72) {
+      //   ref.current.rotation.x = Math.PI + 0.09;
+      // } else {
+      //   ref.current.rotation.x = Math.PI;
+      // }
       // pivot rotation to 0
       if (!clicked && ref.current.rotation.y > 0) {
         ref.current.rotation.y -= animationSpeed;
@@ -220,30 +222,30 @@ export function Model2({
       />
       <mesh
         ref={ref}
-        onPointerOver={() => {
-          setHover(false);
+        onPointerEnter={() => {
+          setHover(true);
           changePointer(hover);
         }}
         onPointerLeave={() => {
-          setHover(true);
+          setHover(false);
           changePointer(hover);
         }}
         onClick={() => {
           setVinylPlay(!vinylPlay);
         }}
         geometry={nodes.ArmPivot.geometry}
-        material={ hover ?  materials.TurnTableMetal :  hoverMaterial}
+        material={materials.TurnTableMetal}
         position={[1.39, 0.01, -0.56]}
         rotation={[-Math.PI, 0, 0]}
       >
         <group position={[0, -0.07, -0.26]} rotation={[1.49, 0, 0]}>
           <mesh
             geometry={nodes.Cylinder004.geometry}
-            material={hover ? materials.VolumeKnob :  hoverMaterial}
+            material={materials.VolumeKnob}
           />
           <mesh
             geometry={nodes.Cylinder004_1.geometry}
-            material={hover ? materials.TurnTableMetal :  hoverMaterial}
+            material={materials.TurnTableMetal}
           />
         </group>
       </mesh>
@@ -265,12 +267,12 @@ export function Model2({
           <group
             key={musicTracks[el.key].id}
             onPointerOver={() => {
-              setHover(false);
-              changePointer(hover);
+              setDiskHover(false);
+              changePointer(diskHover);
             }}
             onPointerLeave={() => {
-              setHover(true);
-              changePointer(hover);
+              setDiskHover(true);
+              changePointer(diskHover);
             }}
             onClick={() =>
               setTrack({
