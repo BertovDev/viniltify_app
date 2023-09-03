@@ -139,7 +139,7 @@ export default function Dashboard() {
   }, [diskInfo]);
 
   useEffect(() => {
-    console.log(currentState);
+    // console.log(currentState);
   }, [currentState]);
 
   renderLoop();

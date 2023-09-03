@@ -63,6 +63,10 @@ export function Model2({
   const textureLoader = new THREE.TextureLoader();
   const particleTexture = textureLoader.load("musical-note.png");
 
+  let hoverMaterial = new THREE.MeshStandardMaterial();
+  hoverMaterial.colorWrite = true;
+  hoverMaterial.color = new THREE.Color("#e9c46a")
+
   const { camera, scene } = useThree();
   camera.add(listener);
 
@@ -79,7 +83,7 @@ export function Model2({
     setDiskArray(createDiskCollection());
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    InitAnimation(camera, refControls);
+    // InitAnimation(camera, refControls);
   }, []);
 
   useEffect(() => {
@@ -95,7 +99,7 @@ export function Model2({
         sound.setVolume(0.5);
       },
       function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        // console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
         setCurrentState((xhr.loaded / xhr.total) * 100);
       }
     );
@@ -228,18 +232,18 @@ export function Model2({
           setVinylPlay(!vinylPlay);
         }}
         geometry={nodes.ArmPivot.geometry}
-        material={materials.TurnTableMetal}
+        material={ hover ?  materials.TurnTableMetal :  hoverMaterial}
         position={[1.39, 0.01, -0.56]}
         rotation={[-Math.PI, 0, 0]}
       >
         <group position={[0, -0.07, -0.26]} rotation={[1.49, 0, 0]}>
           <mesh
             geometry={nodes.Cylinder004.geometry}
-            material={materials.VolumeKnob}
+            material={hover ? materials.VolumeKnob :  hoverMaterial}
           />
           <mesh
             geometry={nodes.Cylinder004_1.geometry}
-            material={materials.TurnTableMetal}
+            material={hover ? materials.TurnTableMetal :  hoverMaterial}
           />
         </group>
       </mesh>
