@@ -4,9 +4,6 @@ import {
   PerspectiveCamera,
   SpotLight,
   OrbitControls,
-  PointMaterial,
-  Point,
-  Points,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
@@ -27,15 +24,10 @@ const listener = new THREE.AudioListener();
 const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
-export function Model2({
-  vinylPlay,
-  setVinylPlay,
-  setCurrentPlaying,
-  setCurrentState,
-  props,
-}) {
+export function Model2({ setCurrentPlaying, props }) {
   const { nodes, materials } = useGLTF("/vinyl2.glb");
   const animationSpeed = 0.04;
+  const [vinylPlay, setVinylPlay] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [hover, setHover] = useState(false);
   const [track, setTrack] = useState({
@@ -49,15 +41,8 @@ export function Model2({
   const refDisk = useRef();
   const refDiskSupport = useRef();
   const refControls = useRef();
-  const refParticle = useRef();
-  const refParticle2 = useRef();
-  const refParticle3 = useRef();
-  const refParticle4 = useRef();
-  const refMaterial = useRef();
 
   let num;
-  const textureLoader = new THREE.TextureLoader();
-  const particleTexture = textureLoader.load("musical-note.png");
 
   const { camera, scene } = useThree();
   camera.add(listener);
@@ -72,23 +57,25 @@ export function Model2({
   }, [vinylPlay]);
 
   function updateCurrentSong(track) {
-    console.log("Loading " + track);
-    audioLoader.load(
-      track.song,
-      function (buffer) {
-        sound.setBuffer(buffer);
-        setCurrentPlaying(track.name + " - " + track.artist);
-        if (sound.source != null && sound.isPlaying) {
-          sound.stop();
-          setVinylPlay(!vinylPlay);
+    if (track) {
+      console.log("Loading " + track.name);
+      audioLoader.load(
+        track.song,
+        function (buffer) {
+          sound.setBuffer(buffer);
+          setCurrentPlaying(track.name + " - " + track.artist);
+          if (sound.source != null && sound.isPlaying) {
+            sound.stop();
+            setVinylPlay(!vinylPlay);
+          }
+          sound.setVolume(0.2);
+        },
+        function (xhr) {
+          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+          // setCurrentState((xhr.loaded / xhr.total) * 100);
         }
-        sound.setVolume(0.5);
-      },
-      function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-        setCurrentState((xhr.loaded / xhr.total) * 100);
-      }
-    );
+      );
+    }
   }
 
   useEffect(() => {
@@ -123,28 +110,6 @@ export function Model2({
       if (clicked && num.toFixed(2) == 0.72) {
         refDisk.current.rotation.y += animationSpeed - 0.02;
         refDiskSupport.current.rotation.y += animationSpeed - 0.02;
-      }
-
-      if (clicked) {
-        refMaterial.current.material.opacity = 1;
-
-        refLight.current.rotation.y += 0.02;
-        refParticle.current.position.y = Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle.current.position.x = Math.tan(time) - 1;
-
-        refParticle2.current.position.y =
-          Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle2.current.position.x = Math.cos(clock.getElapsedTime()) + 1;
-
-        refParticle3.current.position.y =
-          Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle3.current.position.x = -Math.tan(time);
-
-        refParticle4.current.position.y =
-          Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle3.current.position.x = -Math.tan(time);
-      } else {
-        refMaterial.current.material.opacity = 0;
       }
     },
     [clicked]
@@ -257,22 +222,7 @@ export function Model2({
         scale={3}
         position={[0, -0.39, 0]}
       />
-      <Points ref={refMaterial} opacity={0}>
-        <PointMaterial
-          transparent
-          size={60}
-          alphaMap={particleTexture}
-          alphaTest={0.001}
-          sizeAttenuation={false}
-          depthWrite={false}
-          toneMapped={false}
-        >
-          <Point ref={refParticle} position={[-1, 0, -1]} />
-          <Point ref={refParticle2} position={[1, 0, -2]} />
-          <Point ref={refParticle3} position={[-1, 0, 1]} />
-          <Point ref={refParticle4} position={[1, 0, 2]} />
-        </PointMaterial>
-      </Points>
+
       <Lights refLight={refLight} />
     </group>
   );

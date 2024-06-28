@@ -16,10 +16,8 @@ function renderLoop() {
 export default function Experience() {
   const [search, setSearch] = useState("");
   const [playingTrack, setPlayingTrack] = useState();
-  const [vinylPlay, setVinylPlay] = useState(false);
   const [diskInfo, setDiskInfo] = useState({ clicked: false, timesClicked: 0 });
   const [currentPlaying, setCurrentPlaying] = useState("");
-  const [currentState, setCurrentState] = useState();
 
   window.mobileCheck = function () {
     let check = false;
@@ -187,12 +185,7 @@ export default function Experience() {
         {/* <OrbitControls ref={refControls} enablePan={false} maxDistance={8}  maxPolarAngle={1.5} zoomSpeed={2}/> */}
         <Suspense fallback={null}>
           {/* <Model/> */}
-          <Model2
-            vinylPlay={vinylPlay}
-            setVinylPlay={setVinylPlay}
-            setCurrentPlaying={setCurrentPlaying}
-            setCurrentState={setCurrentState}
-          />
+          <Model2 setCurrentPlaying={setCurrentPlaying} />
           <DiskCollection />
           {/* <group
             ref={refDiskInfo}

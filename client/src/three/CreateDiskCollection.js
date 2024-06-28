@@ -36,6 +36,13 @@ export let musicTracks = [
     img: "pf.jpg",
     song: "music/Pigs.mp3",
   },
+  {
+    id: 5,
+    name: "Americana",
+    artist: "The offspring",
+    img: "3318.jpg",
+    song: "music/have-you-ever.mp3",
+  },
 ];
 
 export function createDiskCollection() {
@@ -43,9 +50,9 @@ export function createDiskCollection() {
 
   musicTracks.forEach((el, index) => {
     const angle = Math.random() * Math.PI * 2;
-    const radius = 2.5 + Math.random() * 4.5;
+    const radius = 2.5 + Math.random() * 4;
     let x = Math.cos(angle) * radius;
-    let z = (0.3 + Math.abs(Math.sin(angle) * radius)) * -1;
+    let z = (0.3 + Math.abs(Math.sin(angle) * radius)) * -0.5;
     let y = Math.random() * (0.38 - 0.4) + 0.38;
     let rotation = (Math.random() - 0.5) * 4;
 
