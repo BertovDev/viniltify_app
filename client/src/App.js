@@ -1,20 +1,11 @@
-import React,{Suspense} from "react";
+import React, { Suspense } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/Login.js";
-import Dashboard from "./components/Dashboard.js";
-
+import Experience from "./components/Experience.js";
 
 function App() {
-  return (
-    <Dashboard/>
-    // <Canvas style={{height:"100vh"}}>
-    //   <OrbitControls />
-    //   <Suspense fallback={null}>
-    //     <Model2 />
-    //   </Suspense>
-    // </Canvas>
-  );
+  return <Experience />;
 }
 
 export default App;

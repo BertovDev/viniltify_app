@@ -1,42 +1,20 @@
 import React, { useState, useEffect, Suspense, useRef } from "react";
-import {
-  Container,
-  Form,
-  Modal,
-  Button,
-  Alert,
-  ProgressBar,
-  Col,
-  Row,
-} from "react-bootstrap";
-
-import TrackSearchResult from "./TrackSearchResult";
+import { Container, Col, Row } from "react-bootstrap";
 
 import { Canvas } from "@react-three/fiber";
 import { Loader } from "@react-three/drei";
 import { Model2 } from "../modelCode/Vinyl2";
 import DiskPlane from "./DiskPlane";
 
-// Icons
-import {
-  Coin,
-  Github,
-  Linkedin,
-  Twitter,
-  WindowFullscreen,
-} from "react-bootstrap-icons";
-import { useControls } from "leva";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min";
+import DiskCollection from "./DiskCollection";
 
 function renderLoop() {
   TWEEN.update();
 }
 
-export default function Dashboard() {
+export default function Experience() {
   const [search, setSearch] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showHelpModal, setShowHelpModal] = useState(false);
   const [playingTrack, setPlayingTrack] = useState();
   const [vinylPlay, setVinylPlay] = useState(false);
   const [diskInfo, setDiskInfo] = useState({ clicked: false, timesClicked: 0 });
@@ -68,12 +46,6 @@ export default function Dashboard() {
     setPlayingTrack(track);
     setSearch("");
   }
-
-  const handleClose = () => setShowModal(false);
-  const handleOpen = () => setShowModal(true);
-
-  const handleOpenHelp = () => setShowHelpModal(true);
-  const handleCloseHelp = () => setShowHelpModal(false);
 
   useEffect(() => {
     if (diskInfo.clicked) {
@@ -153,10 +125,6 @@ export default function Dashboard() {
     }
   }, [diskInfo]);
 
-  useEffect(() => {
-    console.log(currentState);
-  }, [currentState]);
-
   renderLoop();
 
   return (
@@ -225,7 +193,8 @@ export default function Dashboard() {
             setCurrentPlaying={setCurrentPlaying}
             setCurrentState={setCurrentState}
           />
-          <group
+          <DiskCollection />
+          {/* <group
             ref={refDiskInfo}
             position={[0, 0, 0]}
             rotation={[0, 0, 0]}
@@ -246,7 +215,7 @@ export default function Dashboard() {
               position={[-2.7, -0.38, 0]}
               rotation={[-Math.PI / 2, 0, 0.8]}
             />
-          </group>
+          </group> */}
         </Suspense>
       </Canvas>
       <Loader

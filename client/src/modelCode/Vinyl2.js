@@ -11,7 +11,6 @@ import {
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
 import * as THREE from "three";
-import { createDiskCollection } from "../three/CreateDiskCollection";
 import { musicTracks } from "../three/CreateDiskCollection";
 import { InitAnimation, InitMusicParticle } from "../three/Animations";
 import Lights from "../three/Lights";
@@ -39,7 +38,6 @@ export function Model2({
   const animationSpeed = 0.04;
   const [clicked, setClicked] = useState(false);
   const [hover, setHover] = useState(false);
-  const [diskArray, setDiskArray] = useState([]);
   const [track, setTrack] = useState({
     song: musicTracks[0].song,
     artist: musicTracks[0].artist,
@@ -58,8 +56,6 @@ export function Model2({
   const refMaterial = useRef();
 
   let num;
-  let positionAux = 0.01;
-  let positionXAux = Math.asin(1) * 0.5;
   const textureLoader = new THREE.TextureLoader();
   const particleTexture = textureLoader.load("musical-note.png");
 
@@ -75,14 +71,8 @@ export function Model2({
     }
   }, [vinylPlay]);
 
-  useEffect(() => {
-    setDiskArray(createDiskCollection());
-    document.body.style.cursor = "grab";
-    refControls.current.enabled = true;
-    InitAnimation(camera, refControls);
-  }, []);
-
-  useEffect(() => {
+  function updateCurrentSong(track) {
+    console.log("Loading " + track);
     audioLoader.load(
       track.song,
       function (buffer) {
@@ -99,7 +89,15 @@ export function Model2({
         setCurrentState((xhr.loaded / xhr.total) * 100);
       }
     );
-  }, [track]);
+  }
+
+  useEffect(() => {
+    window.track = track;
+    updateCurrentSong(track);
+    document.body.style.cursor = "grab";
+    refControls.current.enabled = true;
+    // InitAnimation(camera, refControls);
+  }, []);
 
   useFrame(
     ({ clock }) => {
@@ -153,6 +151,10 @@ export function Model2({
   );
 
   useFrame(() => {
+    if (window.track !== track) {
+      setTrack(window.track);
+      updateCurrentSong(window.track);
+    }
     TWEEN.update();
   });
 
@@ -255,31 +257,6 @@ export function Model2({
         scale={3}
         position={[0, -0.39, 0]}
       />
-
-      {diskArray.map((el) => {
-        return (
-          <group
-            key={musicTracks[el.key].id}
-            onPointerOver={() => {
-              setHover(false);
-              changePointer(hover);
-            }}
-            onPointerLeave={() => {
-              setHover(true);
-              changePointer(hover);
-            }}
-            onClick={() =>
-              setTrack({
-                song: musicTracks[el.key].song,
-                name: musicTracks[el.key].name,
-                artist: musicTracks[el.key].artist,
-              })
-            }
-          >
-            {el}
-          </group>
-        );
-      })}
       <Points ref={refMaterial} opacity={0}>
         <PointMaterial
           transparent

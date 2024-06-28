@@ -62,6 +62,9 @@ export function createDiskCollection() {
         playingTrack={el.img}
         position={[x, -y, z]}
         rotation={[-Math.PI / 2, 0, rotation]}
+        song={el.song}
+        artist={el.artist}
+        name={el.name}
       />
     );
   });
