@@ -57,6 +57,7 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
           diskRef.current.rotation
         );
         setClicked(!clicked);
+        document.body.style.pointerEvents = "none";
       }}
       onPointerOver={() => {
         setHover(false);

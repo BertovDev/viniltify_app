@@ -89,6 +89,7 @@ export function DiskAnimation(
       .onComplete(function () {
         //on finish animation
         TWEEN.remove(this); // remove the animation from memory
+        document.body.style.pointerEvents = "auto";
       });
   } else {
     new TWEEN.Tween(diskRefPos)
@@ -125,6 +126,7 @@ export function DiskAnimation(
       .onComplete(function () {
         //on finish animation
         TWEEN.remove(this); // remove the animation from memory
+        document.body.style.pointerEvents = "auto";
       });
   }
 }
