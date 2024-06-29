@@ -28,10 +28,6 @@ export default function DiskCollection() {
     setDiskReferences(references);
   }, [diskArray]);
 
-  // useFrame(() => {
-  //   console.log(diskReferences);
-  // }, [window.track]);
-
   function getDiskNotInUsing() {
     return diskReferences.filter(
       (el) => el.name.slice(5) !== window.track.name
@@ -50,18 +46,26 @@ export default function DiskCollection() {
         if (meshRef !== undefined) {
           pos = meshRef["position"];
           rot = meshRef["rotation"];
-          DiskAnimation(
-            true,
-            el.props.position,
-            el.props.rotation,
-            pos,
-            rot,
-            0
+
+          const vec3 = new THREE.Vector3(
+            el.props.position[0],
+            el.props.position[1],
+            el.props.position[2]
           );
+
+          if (!vec3.equals(pos)) {
+            DiskAnimation(
+              true,
+              el.props.position,
+              el.props.rotation,
+              pos,
+              rot,
+              0
+            );
+          }
         }
       }
     });
-    // console.log(diskReferences);
   }, [window.track, diskReferences]);
 
   return (

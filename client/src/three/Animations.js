@@ -46,18 +46,6 @@ export function InitAnimation(camera, refControls) {
     });
 }
 
-export function InitMusicParticle() {
-  const particleGeometry = new THREE.SphereBufferGeometry(1, 32, 32);
-  const particleMaterial = new THREE.PointsMaterial({
-    size: 0.2,
-    sizeAttenuation: true,
-    depthWrite: true,
-  });
-  const particles = new THREE.Points(particleGeometry, particleMaterial);
-
-  return particles;
-}
-
 export function DiskAnimation(
   clicked,
   originalPos,
