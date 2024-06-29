@@ -24,11 +24,13 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
   });
 
   function setTrack(song, artist, name) {
-    window.track = {
-      song: song,
-      artist: artist,
-      name: name,
-    };
+    if (clicked === false) {
+      window.track = {
+        song: song,
+        artist: artist,
+        name: name,
+      };
+    }
   }
 
   function changePointer(hover) {
