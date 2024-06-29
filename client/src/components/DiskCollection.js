@@ -59,12 +59,6 @@ export default function DiskCollection() {
             0
           );
         }
-        // const pos = meshRef["position"];
-        // const rot = meshRef["rotation"];
-        // console.log(getReferenceByName(el.props.name));
-        // console.log(el.props.name);
-        // DiskAnimation(false, el.props.position, el.props.rotation, pos, rot);
-        // console.log(diskReferences);
       }
     });
     // console.log(diskReferences);
