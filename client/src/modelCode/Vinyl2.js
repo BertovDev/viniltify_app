@@ -65,6 +65,7 @@ export function Model2({ setCurrentPlaying, props }) {
           sound.setBuffer(buffer);
           setCurrentPlaying(track.name + " - " + track.artist);
           if (sound.source != null && sound.isPlaying) {
+            console.log(sound.isPlaying);
             sound.stop();
             setVinylPlay(!vinylPlay);
           }
@@ -83,7 +84,7 @@ export function Model2({ setCurrentPlaying, props }) {
     updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    InitAnimation(camera, refControls);
+    // InitAnimation(camera, refControls);
   }, []);
 
   useFrame(
@@ -119,6 +120,9 @@ export function Model2({ setCurrentPlaying, props }) {
     if (window.track !== track) {
       setTrack(window.track);
       updateCurrentSong(window.track);
+    }
+    if (sound.isPlaying === false) {
+      setVinylPlay(false);
     }
     TWEEN.update();
   });
