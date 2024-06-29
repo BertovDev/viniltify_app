@@ -4,14 +4,10 @@ import {
   PerspectiveCamera,
   SpotLight,
   OrbitControls,
-  PointMaterial,
-  Point,
-  Points,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
 import * as THREE from "three";
-import { createDiskCollection } from "../three/CreateDiskCollection";
 import { musicTracks } from "../three/CreateDiskCollection";
 import { InitAnimation, InitMusicParticle } from "../three/Animations";
 import Lights from "../three/Lights";
@@ -28,18 +24,12 @@ const listener = new THREE.AudioListener();
 const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
-export function Model2({
-  vinylPlay,
-  setVinylPlay,
-  setCurrentPlaying,
-  setCurrentState,
-  props,
-}) {
+export function Model2({ setCurrentPlaying, props }) {
   const { nodes, materials } = useGLTF("/vinyl2.glb");
   const animationSpeed = 0.04;
+  const [vinylPlay, setVinylPlay] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [hover, setHover] = useState(false);
-  const [diskArray, setDiskArray] = useState([]);
   const [track, setTrack] = useState({
     song: musicTracks[0].song,
     artist: musicTracks[0].artist,
@@ -51,17 +41,8 @@ export function Model2({
   const refDisk = useRef();
   const refDiskSupport = useRef();
   const refControls = useRef();
-  const refParticle = useRef();
-  const refParticle2 = useRef();
-  const refParticle3 = useRef();
-  const refParticle4 = useRef();
-  const refMaterial = useRef();
 
   let num;
-  let positionAux = 0.01;
-  let positionXAux = Math.asin(1) * 0.5;
-  const textureLoader = new THREE.TextureLoader();
-  const particleTexture = textureLoader.load("musical-note.png");
 
   const { camera, scene } = useThree();
   camera.add(listener);
@@ -75,31 +56,35 @@ export function Model2({
     }
   }, [vinylPlay]);
 
+  function updateCurrentSong(track) {
+    if (track) {
+      console.log("Loading " + track.name);
+      audioLoader.load(
+        track.song,
+        function (buffer) {
+          sound.setBuffer(buffer);
+          setCurrentPlaying(track.name + " - " + track.artist);
+          if (sound.source != null && sound.isPlaying) {
+            sound.stop();
+            setVinylPlay(!vinylPlay);
+          }
+          sound.setVolume(0.2);
+        },
+        function (xhr) {
+          // console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+          // setCurrentState((xhr.loaded / xhr.total) * 100);
+        }
+      );
+    }
+  }
+
   useEffect(() => {
-    setDiskArray(createDiskCollection());
+    window.track = track;
+    updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
     InitAnimation(camera, refControls);
   }, []);
-
-  useEffect(() => {
-    audioLoader.load(
-      track.song,
-      function (buffer) {
-        sound.setBuffer(buffer);
-        setCurrentPlaying(track.name + " - " + track.artist);
-        if (sound.source != null && sound.isPlaying) {
-          sound.stop();
-          setVinylPlay(!vinylPlay);
-        }
-        sound.setVolume(0.5);
-      },
-      function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-        setCurrentState((xhr.loaded / xhr.total) * 100);
-      }
-    );
-  }, [track]);
 
   useFrame(
     ({ clock }) => {
@@ -126,33 +111,15 @@ export function Model2({
         refDisk.current.rotation.y += animationSpeed - 0.02;
         refDiskSupport.current.rotation.y += animationSpeed - 0.02;
       }
-
-      if (clicked) {
-        refMaterial.current.material.opacity = 1;
-
-        refLight.current.rotation.y += 0.02;
-        refParticle.current.position.y = Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle.current.position.x = Math.tan(time) - 1;
-
-        refParticle2.current.position.y =
-          Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle2.current.position.x = Math.cos(clock.getElapsedTime()) + 1;
-
-        refParticle3.current.position.y =
-          Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle3.current.position.x = -Math.tan(time);
-
-        refParticle4.current.position.y =
-          Math.sin(clock.getElapsedTime()) + 1.2;
-        refParticle3.current.position.x = -Math.tan(time);
-      } else {
-        refMaterial.current.material.opacity = 0;
-      }
     },
     [clicked]
   );
 
   useFrame(() => {
+    if (window.track !== track) {
+      setTrack(window.track);
+      updateCurrentSong(window.track);
+    }
     TWEEN.update();
   });
 
@@ -256,46 +223,6 @@ export function Model2({
         position={[0, -0.39, 0]}
       />
 
-      {diskArray.map((el) => {
-        return (
-          <group
-            key={musicTracks[el.key].id}
-            onPointerOver={() => {
-              setHover(false);
-              changePointer(hover);
-            }}
-            onPointerLeave={() => {
-              setHover(true);
-              changePointer(hover);
-            }}
-            onClick={() =>
-              setTrack({
-                song: musicTracks[el.key].song,
-                name: musicTracks[el.key].name,
-                artist: musicTracks[el.key].artist,
-              })
-            }
-          >
-            {el}
-          </group>
-        );
-      })}
-      <Points ref={refMaterial} opacity={0}>
-        <PointMaterial
-          transparent
-          size={60}
-          alphaMap={particleTexture}
-          alphaTest={0.001}
-          sizeAttenuation={false}
-          depthWrite={false}
-          toneMapped={false}
-        >
-          <Point ref={refParticle} position={[-1, 0, -1]} />
-          <Point ref={refParticle2} position={[1, 0, -2]} />
-          <Point ref={refParticle3} position={[-1, 0, 1]} />
-          <Point ref={refParticle4} position={[1, 0, 2]} />
-        </PointMaterial>
-      </Points>
       <Lights refLight={refLight} />
     </group>
   );
