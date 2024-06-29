@@ -35,95 +35,7 @@ export default function Experience() {
     return check;
   };
   let loaderFontSize = window.mobileCheck() ? "22px" : "30px";
-
-  const refDiskInfo = useRef();
-
-  // const {rotation,position,delayR,delayP,rotationX,rotationY} = useControls({rotation:[0,0,0],position:[0,0,0],delayR:500,delayP:1500,rotationX:1.1});
-
-  function chooseTrack(track) {
-    setPlayingTrack(track);
-    setSearch("");
-  }
-
-  useEffect(() => {
-    if (diskInfo.clicked) {
-      new TWEEN.Tween(refDiskInfo.current.position.set(0, 0, 0))
-        .to(
-          {
-            // from camera position
-            x: 2, //desired x position to go
-            y: 0, //desired y position to go
-            z: 3.5, //desired z position to go
-          },
-          2500
-        ) // time take to animate
-        .delay(700)
-        .easing(TWEEN.Easing.Quartic.InOut)
-        .start() // define delay, easing
-        .onComplete(function () {
-          //on finish animation
-          TWEEN.remove(this); // remove the animation from memory
-        });
-
-      new TWEEN.Tween(refDiskInfo.current.rotation.set(0, 0, 0))
-        .to(
-          {
-            // from camera position
-            x: 1.1, //desired x position to go
-            y: 5.5, //desired y position to go
-            z: 0, //desired z position to go
-          },
-          2500
-        ) // time take to animate
-        .delay(1400)
-        .easing(TWEEN.Easing.Quartic.InOut)
-        .start() // define delay, easing
-        .onComplete(function () {
-          //on finish animation
-          TWEEN.remove(this); // remove the animation from memory
-        });
-    }
-
-    if (!diskInfo.clicked && diskInfo.timesClicked > 0) {
-      new TWEEN.Tween(refDiskInfo.current.position.set(2, 0, 3.5))
-        .to(
-          {
-            // from camera position
-            x: 0, //desired x position to go
-            y: 0, //desired y position to go
-            z: 0, //desired z position to go
-          },
-          1500
-        ) // time take to animate
-        .delay(1500)
-        .easing(TWEEN.Easing.Quartic.InOut)
-        .start() // define delay, easing
-        .onComplete(function () {
-          //on finish animation
-          TWEEN.remove(this); // remove the animation from memory
-        });
-
-      new TWEEN.Tween(refDiskInfo.current.rotation.set(1.1, 5.5, 0))
-        .to(
-          {
-            // from camera position
-            x: 0, //desired x position to go
-            y: 0, //desired y position to go
-            z: 0, //desired z position to go
-          },
-          1500
-        ) // time take to animate
-        .delay(500)
-        .easing(TWEEN.Easing.Quartic.InOut)
-        .start() // define delay, easing
-        .onComplete(function () {
-          //on finish animation
-          TWEEN.remove(this); // remove the animation from memory
-        });
-    }
-  }, [diskInfo]);
-
-  renderLoop();
+  // renderLoop();
 
   return (
     <>
@@ -180,35 +92,10 @@ export default function Experience() {
         }}
         shadows
       >
-        {/* <ambientLight/> */}
         <directionalLight intensity={0.5} castShadow color="white" />
-        {/* <OrbitControls ref={refControls} enablePan={false} maxDistance={8}  maxPolarAngle={1.5} zoomSpeed={2}/> */}
         <Suspense fallback={null}>
-          {/* <Model/> */}
           <Model2 setCurrentPlaying={setCurrentPlaying} />
           <DiskCollection />
-          {/* <group
-            ref={refDiskInfo}
-            position={[0, 0, 0]}
-            rotation={[0, 0, 0]}
-            onClick={() => {
-              setDiskInfo({ clicked: !diskInfo.clicked, timesClicked: 1 });
-            }}
-            onPointerOver={() => {
-              document.body.style.cursor = "pointer";
-            }}
-            onPointerOut={() => {
-              document.body.style.cursor = "grab";
-            }}
-          >
-            <DiskPlane
-              playingTrack={
-                playingTrack !== undefined ? playingTrack.albumUrl : "3318.jpg"
-              }
-              position={[-2.7, -0.38, 0]}
-              rotation={[-Math.PI / 2, 0, 0.8]}
-            />
-          </group> */}
         </Suspense>
       </Canvas>
       <Loader

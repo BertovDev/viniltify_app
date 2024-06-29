@@ -71,7 +71,7 @@ export function Model2({ setCurrentPlaying, props }) {
           sound.setVolume(0.2);
         },
         function (xhr) {
-          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+          // console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
           // setCurrentState((xhr.loaded / xhr.total) * 100);
         }
       );
@@ -83,7 +83,7 @@ export function Model2({ setCurrentPlaying, props }) {
     updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    // InitAnimation(camera, refControls);
+    InitAnimation(camera, refControls);
   }, []);
 
   useFrame(
