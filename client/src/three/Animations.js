@@ -63,7 +63,7 @@ export function DiskAnimation(
           y: 1.6, //desired y position to go
           z: 1.5, //desired z position to go
         },
-        2500
+        1500
       )
       .delay(0)
       .easing(TWEEN.Easing.Quartic.InOut)
@@ -81,7 +81,7 @@ export function DiskAnimation(
           y: 0.25, //desired y position to go
           z: 0.14, //desired z position to go
         },
-        2500
+        1500
       ) // time take to animate
       .delay(0)
       .easing(TWEEN.Easing.Quartic.InOut)

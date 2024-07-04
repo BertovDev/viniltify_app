@@ -80,6 +80,7 @@ export function Model2({ setCurrentPlaying, props }) {
 
   useEffect(() => {
     window.track = track;
+    window.currentClicked = false;
     updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;

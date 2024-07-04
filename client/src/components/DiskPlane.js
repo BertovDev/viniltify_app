@@ -6,7 +6,6 @@ import { TWEEN } from "three/examples/jsm/libs/tween.module.min";
 import * as THREE from "three";
 import { useControls } from "leva";
 import { DiskAnimation } from "../three/Animations";
-// position={[-2.7,-0.38,0]} rotation={[-Math.PI/2,0,0.8]}
 
 export default function DiskPlane(playingTrack, key, song, artist, name) {
   const texture = useLoader(TextureLoader, Object.values(playingTrack)[0]);
@@ -14,6 +13,11 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
   const rotation = Object.values(playingTrack)[2];
   const originalPos = position;
   const originalRot = rotation;
+  const originalPosVec = new THREE.Vector3(
+    originalPos[0],
+    originalPos[1],
+    originalPos[2]
+  );
   const [hover, setHover] = useState(false);
   const diskRef = useRef();
   const [isClicked, setIsClicked] = useState(false);
@@ -42,14 +46,24 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
   }
 
   const onMissedEventHandler = (event) => {
-    setIsClicked(true);
-    diskRef.current.material.opacity = 0.7;
+    if (window.currentClicked === true) {
+      if (!originalPosVec.equals(diskRef.current.position)) {
+        DiskAnimation(
+          true,
+          originalPos,
+          originalRot,
+          diskRef.current.position,
+          diskRef.current.rotation
+        );
+      }
+      setIsClicked(true);
+      diskRef.current.material.opacity = 0.7;
 
-    setTimeout(() => {
-      console.log("clickeable again " + Object.values(playingTrack)[5]);
-      setIsClicked(false);
-      diskRef.current.material.opacity = 1;
-    }, 2700);
+      setTimeout(() => {
+        setIsClicked(false);
+        diskRef.current.material.opacity = 1;
+      }, 1800);
+    }
   };
 
   const clickEventHandler = (event) => {
@@ -59,30 +73,40 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
         Object.values(playingTrack)[4],
         Object.values(playingTrack)[5]
       );
+      setIsClicked(!isClicked);
+      DiskAnimation(
+        isClicked,
+        originalPos,
+        originalRot,
+        diskRef.current.position,
+        diskRef.current.rotation
+      );
       event.stopPropagation();
+    } else {
+      DiskAnimation(
+        true,
+        originalPos,
+        originalRot,
+        diskRef.current.position,
+        diskRef.current.rotation
+      );
     }
-    setIsClicked(!isClicked);
-    DiskAnimation(
-      isClicked,
-      originalPos,
-      originalRot,
-      diskRef.current.position,
-      diskRef.current.rotation
-    );
   };
 
   return (
     <Plane
       onClick={clickEventHandler}
       onPointerOver={() => {
+        window.currentClicked = true;
         setHover(false);
         changePointer(hover);
       }}
       onPointerLeave={() => {
+        window.currentClicked = false;
         setHover(true);
         changePointer(hover);
       }}
-      // onPointerMissed={onMissedEventHandler}
+      onPointerMissed={onMissedEventHandler}
       key={key}
       position={position}
       rotation={rotation}
