@@ -84,7 +84,7 @@ export function Model2({ setCurrentPlaying, props }) {
     updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    // InitAnimation(camera, refControls);
+    InitAnimation(camera, refControls);
   }, []);
 
   useFrame(
