@@ -65,7 +65,7 @@ export function DiskAnimation(
         },
         2500
       )
-      .delay(700)
+      .delay(0)
       .easing(TWEEN.Easing.Quartic.InOut)
       .start()
       .onComplete(function () {
@@ -83,13 +83,12 @@ export function DiskAnimation(
         },
         2500
       ) // time take to animate
-      .delay(500)
+      .delay(0)
       .easing(TWEEN.Easing.Quartic.InOut)
       .start()
       .onComplete(function () {
         //on finish animation
         TWEEN.remove(this); // remove the animation from memory
-        document.body.style.pointerEvents = "auto";
       });
   } else {
     new TWEEN.Tween(diskRefPos)
@@ -100,9 +99,9 @@ export function DiskAnimation(
           y: originalPos[1], //desired y position to go
           z: originalPos[2], //desired z position to go
         },
-        2500
+        1500
       )
-      .delay(700)
+      .delay(0)
       .easing(TWEEN.Easing.Quartic.InOut)
       .start()
       .onComplete(function () {
@@ -118,15 +117,14 @@ export function DiskAnimation(
           y: originalRot[1], //desired y position to go
           z: originalRot[2], //desired z position to go
         },
-        2500
+        1500
       ) // time take to animate
-      .delay(500)
+      .delay(0)
       .easing(TWEEN.Easing.Quartic.InOut)
       .start()
       .onComplete(function () {
         //on finish animation
         TWEEN.remove(this); // remove the animation from memory
-        document.body.style.pointerEvents = "auto";
       });
   }
 }

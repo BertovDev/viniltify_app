@@ -16,7 +16,7 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
   const originalRot = rotation;
   const [hover, setHover] = useState(false);
   const diskRef = useRef();
-  const [clicked, setClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const { diskRotation, diskPosition } = useControls({
     diskRotation: rotation,
@@ -24,7 +24,7 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
   });
 
   function setTrack(song, artist, name) {
-    if (clicked === false) {
+    if (isClicked === false) {
       window.track = {
         song: song,
         artist: artist,
@@ -41,24 +41,39 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
     }
   }
 
+  const onMissedEventHandler = (event) => {
+    setIsClicked(true);
+    diskRef.current.material.opacity = 0.7;
+
+    setTimeout(() => {
+      console.log("clickeable again " + Object.values(playingTrack)[5]);
+      setIsClicked(false);
+      diskRef.current.material.opacity = 1;
+    }, 2700);
+  };
+
+  const clickEventHandler = (event) => {
+    if (isClicked === false) {
+      setTrack(
+        Object.values(playingTrack)[3],
+        Object.values(playingTrack)[4],
+        Object.values(playingTrack)[5]
+      );
+      event.stopPropagation();
+    }
+    setIsClicked(!isClicked);
+    DiskAnimation(
+      isClicked,
+      originalPos,
+      originalRot,
+      diskRef.current.position,
+      diskRef.current.rotation
+    );
+  };
+
   return (
     <Plane
-      onClick={() => {
-        setTrack(
-          Object.values(playingTrack)[3],
-          Object.values(playingTrack)[4],
-          Object.values(playingTrack)[5]
-        );
-        DiskAnimation(
-          clicked,
-          originalPos,
-          originalRot,
-          diskRef.current.position,
-          diskRef.current.rotation
-        );
-        setClicked(!clicked);
-        document.body.style.pointerEvents = "none";
-      }}
+      onClick={clickEventHandler}
       onPointerOver={() => {
         setHover(false);
         changePointer(hover);
@@ -67,6 +82,7 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
         setHover(true);
         changePointer(hover);
       }}
+      // onPointerMissed={onMissedEventHandler}
       key={key}
       position={position}
       rotation={rotation}
@@ -74,7 +90,12 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
       ref={diskRef}
       name={"disk " + Object.values(playingTrack)[5]}
     >
-      <meshStandardMaterial map={texture} side={THREE.DoubleSide} />
+      <meshStandardMaterial
+        map={texture}
+        side={THREE.DoubleSide}
+        transparent={true}
+        alpa
+      />
     </Plane>
   );
 }

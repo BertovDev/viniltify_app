@@ -65,7 +65,6 @@ export function Model2({ setCurrentPlaying, props }) {
           sound.setBuffer(buffer);
           setCurrentPlaying(track.name + " - " + track.artist);
           if (sound.source != null && sound.isPlaying) {
-            console.log(sound.isPlaying);
             sound.stop();
             setVinylPlay(!vinylPlay);
           }
@@ -117,7 +116,7 @@ export function Model2({ setCurrentPlaying, props }) {
   );
 
   useFrame(() => {
-    if (window.track !== track) {
+    if (window.track.name !== track.name) {
       setTrack(window.track);
       updateCurrentSong(window.track);
     }
