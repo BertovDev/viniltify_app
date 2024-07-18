@@ -58,7 +58,6 @@ export function Model2({ setCurrentPlaying, props }) {
 
   function updateCurrentSong(track) {
     if (track) {
-      console.log("Loading " + track.name);
       audioLoader.load(
         track.song,
         function (buffer) {
@@ -116,9 +115,12 @@ export function Model2({ setCurrentPlaying, props }) {
   );
 
   useFrame(() => {
-    if (window.track !== track) {
+    if (window.track.name !== track.name) {
       setTrack(window.track);
       updateCurrentSong(window.track);
+    }
+    if (sound.isPlaying === false) {
+      setVinylPlay(false);
     }
     TWEEN.update();
   });
