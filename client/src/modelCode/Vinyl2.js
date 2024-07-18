@@ -58,7 +58,6 @@ export function Model2({ setCurrentPlaying, props }) {
 
   function updateCurrentSong(track) {
     if (track) {
-      console.log("Loading " + track.name);
       audioLoader.load(
         track.song,
         function (buffer) {
@@ -80,7 +79,6 @@ export function Model2({ setCurrentPlaying, props }) {
 
   useEffect(() => {
     window.track = track;
-    window.currentClicked = false;
     updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
