@@ -12,10 +12,10 @@ export default function DiskPlane(playingTrack, key, song, artist, name) {
 
   const diskRef = useRef();
 
-  const { diskRotation, diskPosition } = useControls({
-    diskRotation: rotation,
-    diskPosition: position,
-  });
+  // const { diskRotation, diskPosition } = useControls({
+  //   diskRotation: rotation,
+  //   diskPosition: position,
+  // });
 
   function setTrack(song, artist, name) {
     window.track = {

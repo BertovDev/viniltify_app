@@ -4,7 +4,6 @@ import { Container, Col, Row } from "react-bootstrap";
 import { Canvas } from "@react-three/fiber";
 import { Loader } from "@react-three/drei";
 import { Model2 } from "../modelCode/Vinyl2";
-import DiskPlane from "./DiskPlane";
 
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min";
 import DiskCollection from "./DiskCollection";
