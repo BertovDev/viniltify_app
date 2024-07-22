@@ -1,0 +1,11 @@
+Model Information:
+* title:	Turntable
+* source:	https://sketchfab.com/3d-models/turntable-f4a60d727e6c47818f71f312c5b9f78b
+* author:	Mazou (https://sketchfab.com/ugomazard)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Turntable" (https://sketchfab.com/3d-models/turntable-f4a60d727e6c47818f71f312c5b9f78b) by Mazou (https://sketchfab.com/ugomazard) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

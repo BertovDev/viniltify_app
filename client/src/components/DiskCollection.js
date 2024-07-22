@@ -4,6 +4,7 @@ import { musicTracks } from "../three/CreateDiskCollection";
 import { DiskAnimation, FrontToFloorAnimation } from "../three/Animations";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import changePointer from "../Utils";
 
 export default function DiskCollection() {
   let FRONT_VINYL_POSITION = new THREE.Vector3(-2.6, -0.3, 0.8);
@@ -18,14 +19,6 @@ export default function DiskCollection() {
   const currentPos = useRef({ pos: undefined, rot: undefined });
 
   const { scene, raycaster, camera } = useThree();
-
-  function changePointer(hover) {
-    if (hover) {
-      document.body.style.cursor = "pointer";
-    } else {
-      document.body.style.cursor = "grab";
-    }
-  }
 
   useEffect(() => {
     setDiskArray(createDiskCollection());
