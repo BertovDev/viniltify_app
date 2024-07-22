@@ -38,14 +38,12 @@ export function TurntableModel({ handleClick, isPlaying }, props) {
       armRef.current.children.forEach((el) => {
         el.rotation.y -= 0.04;
       });
-      console.log("chau");
     }
 
     if (!isPlaying && armRef.current.children[0].rotation.y < 0) {
       armRef.current.children.forEach((el) => {
         el.rotation.y += 0.04;
       });
-      console.log("hey");
     }
   }, [isPlaying]);
 
