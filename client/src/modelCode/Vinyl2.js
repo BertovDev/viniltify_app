@@ -66,7 +66,7 @@ export function Model2({ setCurrentPlaying, props }) {
     updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    InitAnimation(camera, refControls);
+    // InitAnimation(camera, refControls);
   }, []);
 
   useFrame(() => {
@@ -123,8 +123,6 @@ export function Model2({ setCurrentPlaying, props }) {
           position={[-0.2, 0.01, 0.1]}
         />
       </group>
-
-      {/* <pointLight intensity={300} decay={2} position={[-3.55, 1.1, -2.94]} rotation={[-1.84, 0.6, 1.93]} /> */}
 
       <mesh
         receiveShadow

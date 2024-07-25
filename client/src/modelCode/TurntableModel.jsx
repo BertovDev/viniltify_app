@@ -7,15 +7,11 @@ import React, { useEffect, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import { useFrame } from "@react-three/fiber";
-import changePointer from "../Utils";
+import { changePointer } from "../Utils";
 
 export function TurntableModel({ handleClick, isPlaying }, props) {
   const { nodes, materials } = useGLTF("turntable/turntableFinal3.glb");
   const armRef = useRef();
-  const armRefPart1 = useRef();
-  const armRefPart2 = useRef();
-  const armRefPart3 = useRef();
-  const armRefPart4 = useRef();
 
   const position = [0.08, -0.19, -0.14];
   const rotation = [0, 1.5, 0];
