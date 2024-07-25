@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
@@ -14,7 +14,7 @@ const listener = new THREE.AudioListener();
 const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
-export function Model2({ setCurrentPlaying, props }) {
+export function ModelsManager({ setCurrentPlaying, props }) {
   const animationSpeed = 0.04;
   const [vinylPlay, setVinylPlay] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -66,7 +66,7 @@ export function Model2({ setCurrentPlaying, props }) {
     updateCurrentSong(track);
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    // InitAnimation(camera, refControls);
+    InitAnimation(camera, refControls);
   }, []);
 
   useFrame(() => {

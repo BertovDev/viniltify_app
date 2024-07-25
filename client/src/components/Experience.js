@@ -4,7 +4,7 @@ import { checkMobile } from "../Utils";
 
 import { Canvas } from "@react-three/fiber";
 import { Loader } from "@react-three/drei";
-import { Model2 } from "../modelCode/Vinyl2";
+import { ModelsManager } from "../modelCode/ModelsManager";
 
 import DiskCollection from "./DiskCollection";
 
@@ -31,7 +31,7 @@ export default function Experience() {
       >
         <directionalLight intensity={0.4} castShadow color="white" />
         <Suspense fallback={null}>
-          <Model2 setCurrentPlaying={setCurrentPlaying} />
+          <ModelsManager setCurrentPlaying={setCurrentPlaying} />
           <DiskCollection />
         </Suspense>
       </Canvas>
