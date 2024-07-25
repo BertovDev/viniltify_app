@@ -43,8 +43,6 @@ export function TurntableModel({ handleClick, isPlaying }, props) {
     }
   }, [isPlaying]);
 
-  useEffect(() => {}, [isPlaying]);
-
   return (
     <group
       {...props}

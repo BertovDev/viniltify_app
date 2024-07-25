@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { createRef, useEffect, useRef, useState } from "react";
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
@@ -8,13 +8,13 @@ import { InitAnimation } from "../three/Animations";
 import Lights from "../three/Lights";
 import { useControls } from "leva";
 import { TurntableModel } from "./TurntableModel";
+import TableAndRecord from "./TableAndRecord";
 
 const listener = new THREE.AudioListener();
 const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
 
 export function Model2({ setCurrentPlaying, props }) {
-  const { nodes, materials } = useGLTF("/vinyl2.glb");
   const animationSpeed = 0.04;
   const [vinylPlay, setVinylPlay] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -25,7 +25,7 @@ export function Model2({ setCurrentPlaying, props }) {
   });
 
   const refLight = useRef();
-  const refDisk = useRef();
+  const refDisk = React.createRef();
   const refControls = useRef();
 
   const { camera } = useThree();
@@ -103,42 +103,13 @@ export function Model2({ setCurrentPlaying, props }) {
         maxPolarAngle={1.5}
         zoomSpeed={2}
       />
-      <group
-        name="presentationDisk"
-        ref={refDisk}
-        position={[-0.21, 0.06, 0.39]}
-        scale={0.88}
-      >
-        <mesh geometry={nodes.Mesh_1.geometry} material={materials.Record} />
-        <mesh geometry={nodes.Mesh_2.geometry} material={materials.Label} />
-        <mesh
-          geometry={nodes.Text021.geometry}
-          material={materials.Record}
-          position={[0, 0.01, -0.1]}
-          scale={0.54}
-        />
-        <mesh
-          geometry={nodes.Text024.geometry}
-          material={materials.Record}
-          position={[-0.2, 0.01, 0.1]}
-        />
-      </group>
 
-      <mesh
-        receiveShadow
-        geometry={nodes.Plane.geometry}
-        material={materials.tABLE}
-        scale={3}
-        position={[0, -0.39, 0]}
-        name="Table"
-      />
       <TurntableModel
         handleClick={(event) => handleClick(event, vinylPlay)}
         isPlaying={vinylPlay}
       />
+      <TableAndRecord ref={refDisk} />
       <Lights refLight={refLight} />
     </group>
   );
 }
-
-useGLTF.preload("/vinyl2.glb");
