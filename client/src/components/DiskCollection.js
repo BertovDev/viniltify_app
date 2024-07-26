@@ -4,7 +4,7 @@ import { musicTracks } from "../three/CreateDiskCollection";
 import { DiskAnimation, FrontToFloorAnimation } from "../three/Animations";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import changePointer from "../Utils";
+import { changePointer } from "../Utils";
 
 export default function DiskCollection() {
   let FRONT_VINYL_POSITION = new THREE.Vector3(-2.6, -0.3, 0.8);
