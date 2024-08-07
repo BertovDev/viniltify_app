@@ -6,7 +6,7 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { changePointer } from "../Utils";
 
-export default function DiskCollection() {
+export default function DiskCollection({ token }) {
   let FRONT_VINYL_POSITION = new THREE.Vector3(-2.6, -0.3, 0.8);
   let FRONT_VINYL_ROTATION = new THREE.Vector3(-1.58, 0, 0.5);
 
@@ -21,9 +21,29 @@ export default function DiskCollection() {
   const { scene, raycaster, camera } = useThree();
 
   useEffect(() => {
-    setDiskArray(createDiskCollection());
     raycaster.layers.set(0);
     camera.layers.enable(1);
+
+    async function fetchPlaylist() {
+      const result = await fetch(
+        "https://api.spotify.com/v1/playlists/1XyzbkDY4mQrJsEN9L64dm/tracks",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      return await result.json();
+    }
+
+    let auxPlaylistTracks = [];
+
+    fetchPlaylist().then((res) => {
+      res.items.map((track) => {
+        auxPlaylistTracks.push(track.track);
+      });
+      setDiskArray(createDiskCollection(auxPlaylistTracks));
+    });
   }, []);
 
   useEffect(() => {
@@ -98,7 +118,7 @@ export default function DiskCollection() {
       }}
     >
       {diskArray.map((el) => {
-        return <group key={musicTracks[el.key].id}>{el}</group>;
+        return <group key={el.key}>{el}</group>;
       })}
     </group>
   );
