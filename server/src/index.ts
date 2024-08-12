@@ -9,6 +9,8 @@ const spotify_client_id: string | undefined = Bun.env
   .SPOTIFY_CLIENT_ID as string;
 const spotify_client_secret: string | undefined = Bun.env
   .SPOTIFY_CLIENT_SECRET as string;
+const spotify_redirect_uri: string | undefined = Bun.env.REDIRECT_URI as string;
+
 let access_token = "";
 
 app.get("/", (c) => {
@@ -31,7 +33,7 @@ app.get("/auth/login", (c) => {
     response_type: "code",
     client_id: spotify_client_id,
     scope: scope,
-    redirect_uri: "http://localhost:3001/auth/callback",
+    redirect_uri: spotify_redirect_uri,
     state: state,
   });
 
@@ -60,7 +62,7 @@ app.get("/auth/callback", async (c) => {
     },
     body: new URLSearchParams({
       code: code,
-      redirect_uri: "http://localhost:3001/auth/callback",
+      redirect_uri: spotify_redirect_uri,
       grant_type: "authorization_code",
     }),
   };
