@@ -2,7 +2,13 @@
 # Vinyltify :musical_note:
 > "Version 1" :coffee:
 
-## Play your favorite songs on a turntable! :sunglasses: 
+## Play your favorite songs in spotify on a turntable! :sunglasses: 
+
+### Features
+- Display any spotify playlist as a collection of vinyls records.
+- Select any of the songs and play it in a turntable.
+- Play around with the 3D models.
+
 
 ### Installation
 You need **Node.js**, **Bun** and a Spotify account in order to run this application.
