@@ -9,6 +9,8 @@
 - Select any of the songs and play it in a turntable.
 - Play around with the 3D models.
 
+### Stack
+- Created with Node.js, React, threeJS, Bun, Hono 
 
 ### Installation
 You need **Node.js**, **Bun** and a Spotify account in order to run this application.
