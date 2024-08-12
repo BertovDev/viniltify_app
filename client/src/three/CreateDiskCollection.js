@@ -1,5 +1,4 @@
 import DiskPlane from "../components/DiskPlane";
-
 export let musicTracks = [
   {
     id: 0,
@@ -45,14 +44,15 @@ export let musicTracks = [
   },
 ];
 
-export function createDiskCollection() {
+export function createDiskCollection(playlist) {
   let array = [];
 
-  musicTracks.forEach((el, index) => {
+  playlist.forEach((el, index) => {
     const angle = Math.random() * Math.PI * 2;
-    const radius = 2.5 + Math.random() * 4;
-    let x = Math.cos(angle) * radius;
-    let z = (0.3 + Math.abs(Math.sin(angle) * radius)) * -0.5;
+    const radius = 2.4 + Math.random() * 3;
+    let x = Math.sin(angle) * radius;
+    let z = Math.cos(angle) * radius;
+
     let y = Math.random() * (0.38 - 0.4) + 0.38;
     let rotation = (Math.random() - 0.5) * 4;
 
@@ -66,11 +66,11 @@ export function createDiskCollection() {
     array.push(
       <DiskPlane
         key={el.id}
-        playingTrack={el.img}
+        playingTrack={el.album.images[0].url}
         position={[x, -y, z]}
         rotation={[-Math.PI / 2, 0, rotation]}
-        song={el.song}
-        artist={el.artist}
+        song={el.uri}
+        artist={el.artists[0].name}
         name={el.name}
       />
     );

@@ -8,15 +8,26 @@ import { ModelsManager } from "../modelCode/ModelsManager";
 
 import DiskCollection from "./DiskCollection";
 
-export default function Experience() {
-  const [currentPlaying, setCurrentPlaying] = useState("");
+export default function Experience({ token }) {
+  const [currentPlaying, setCurrentPlaying] = useState({
+    text: "",
+    playStatus: false,
+  });
 
   window.mobileCheck = checkMobile;
   let loaderFontSize = window.mobileCheck() ? "22px" : "30px";
 
+  useEffect(() => {
+    console.log(currentPlaying);
+  }, [currentPlaying]);
+
   return (
     <>
-      <PlayerHeader currentPlaying={currentPlaying} />
+      <PlayerHeader
+        token={token}
+        currentPlaying={currentPlaying}
+        setCurrentPlaying={setCurrentPlaying}
+      />
       {/* ThreeJs code  */}
       <Canvas
         style={{ height: "100vh", background: "black" }}
@@ -32,7 +43,7 @@ export default function Experience() {
         <directionalLight intensity={0.4} castShadow color="white" />
         <Suspense fallback={null}>
           <ModelsManager setCurrentPlaying={setCurrentPlaying} />
-          <DiskCollection />
+          <DiskCollection token={token} />
         </Suspense>
       </Canvas>
       <Loader
