@@ -7,8 +7,6 @@ const LOGIN_URI =
     ? "http://localhost:3001/auth/callback"
     : "https://viniltify.onrender.com";
 
-const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=c9833a3d046f479f9d742874913f4428&response_type=code&redirect_uri=${LOGIN_URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
-
 export default function Login() {
   return (
     <Container
