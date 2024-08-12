@@ -19,7 +19,10 @@ export default function Login() {
         Viniltify
       </h1>
       <h3 className="text-center">Play your favorite songs in a turntable!</h3>
-      <a href={"/auth/token"} className="btn btn-success btn-lg mt-4">
+      <a
+        href={"http://localhost:3001/auth/login"}
+        className="btn btn-success btn-lg mt-4"
+      >
         Login with Spotify
       </a>
       <Row>
