@@ -1,10 +1,22 @@
-import React, { useState, useEffect, Suspense, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  Suspense,
+  useRef,
+  useContext,
+  useReducer,
+} from "react";
 import PlayerHeader from "./PlayerHeader";
 import { checkMobile } from "../Utils";
 
 import { Canvas } from "@react-three/fiber";
 import { Loader } from "@react-three/drei";
 import { ModelsManager } from "../modelCode/ModelsManager";
+import {
+  PlayerDispatchContext,
+  PlayerContext,
+  PlayerProvider,
+} from "./PlayerContext";
 
 import DiskCollection from "./DiskCollection";
 
@@ -14,20 +26,17 @@ export default function Experience({ token }) {
     playStatus: false,
   });
 
+  const [song, dispatch] = useReducer(songReducer, initialSong);
+
   window.mobileCheck = checkMobile;
   let loaderFontSize = window.mobileCheck() ? "22px" : "30px";
 
-  useEffect(() => {
-    console.log(currentPlaying);
-  }, [currentPlaying]);
-
   return (
     <>
-      <PlayerHeader
-        token={token}
-        currentPlaying={currentPlaying}
-        setCurrentPlaying={setCurrentPlaying}
-      />
+      <PlayerContext.Provider value={song}>
+        <PlayerHeader token={token} currentPlaying={currentPlaying} />
+      </PlayerContext.Provider>
+
       {/* ThreeJs code  */}
       <Canvas
         style={{ height: "100vh", background: "black" }}
@@ -42,8 +51,12 @@ export default function Experience({ token }) {
       >
         <directionalLight intensity={0.4} castShadow color="white" />
         <Suspense fallback={null}>
-          <ModelsManager setCurrentPlaying={setCurrentPlaying} />
-          <DiskCollection token={token} />
+          <PlayerContext.Provider value={song}>
+            <PlayerDispatchContext.Provider value={dispatch}>
+              <ModelsManager setCurrentPlaying={setCurrentPlaying} />
+              <DiskCollection token={token} />
+            </PlayerDispatchContext.Provider>
+          </PlayerContext.Provider>
         </Suspense>
       </Canvas>
       <Loader
@@ -67,3 +80,17 @@ export default function Experience({ token }) {
     </>
   );
 }
+
+function songReducer(state, action) {
+  switch (action.type) {
+    case "update": {
+      return action.payload;
+    }
+  }
+}
+
+const initialSong = {
+  song: "spotify:track:04jmrsQI3WUHaUTZ6sZ6e",
+  artist: "Turnstile",
+  name: "The Dream",
+};

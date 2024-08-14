@@ -1,12 +1,7 @@
 import React from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import Player from "./Player";
-
-export default function PlayerHeader({
-  currentPlaying,
-  setCurrentPlaying,
-  token,
-}) {
+export default function PlayerHeader({ currentPlaying, token }) {
   return (
     <Container
       className="d-flex flex-row gap-2 justify-content-between py-2"
@@ -47,12 +42,7 @@ export default function PlayerHeader({
           ☝️🤓 Click/touch a vinyl and then the turntable lever to play the song
         </Col>
         <Col style={{ display: "none" }}>
-          <Player
-            accessToken={token}
-            trackUri={"spotify:track:04jmrsQI3WUHaUTZ6sZ6e"}
-            currentPlaying={currentPlaying}
-            setCurrentPlaying={setCurrentPlaying}
-          />
+          <Player accessToken={token} currentPlaying={currentPlaying} />
         </Col>
       </Row>
     </Container>

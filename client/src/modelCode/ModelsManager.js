@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useGLTF, OrbitControls } from "@react-three/drei";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useGLTF, OrbitControls, useHelper } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
 import * as THREE from "three";
@@ -8,16 +8,20 @@ import Lights from "../three/Lights";
 import { useControls } from "leva";
 import { TurntableModel } from "./TurntableModel";
 import TableAndRecord from "./TableAndRecord";
+import { PlayerContext } from "../components/PlayerContext";
 
 export function ModelsManager({ setCurrentPlaying, props }) {
   const animationSpeed = 0.04;
   const [vinylPlay, setVinylPlay] = useState(false);
   const [clicked, setClicked] = useState(false);
 
+  const songContext = useContext(PlayerContext);
+  const { camera } = useThree();
+
   const [track, setTrack] = useState({
-    song: "spotify:track:04jmrsQI3WUHaUTZ6sZ6e",
-    artist: "Turnstile",
-    name: "The Dream",
+    song: songContext.song,
+    artist: songContext.artist,
+    name: songContext.name,
   });
 
   const refLight = useRef();
@@ -29,7 +33,6 @@ export function ModelsManager({ setCurrentPlaying, props }) {
   }, [vinylPlay]);
 
   useEffect(() => {
-    window.track = track;
     setCurrentPlaying({
       text: track.name + " - " + track.artist,
       playStatus: false,
@@ -37,14 +40,18 @@ export function ModelsManager({ setCurrentPlaying, props }) {
 
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    // InitAnimation(camera, refControls);
+    InitAnimation(camera, refControls);
   }, []);
 
   useFrame(() => {
-    if (window.track.name !== track.name) {
-      setTrack(window.track);
+    if (songContext.song !== track.song) {
+      setTrack({
+        song: songContext.song,
+        artist: songContext.artist,
+        name: songContext.name,
+      });
       setCurrentPlaying({
-        text: window.track.name + " - " + window.track.artist,
+        text: songContext.name + " - " + songContext.artist,
         playStatus: vinylPlay,
       });
     }
@@ -55,16 +62,16 @@ export function ModelsManager({ setCurrentPlaying, props }) {
     TWEEN.update();
   });
 
-  const { positiomDisk, scaleDisk } = useControls({
-    positiom: [-0.21, 0.06, 0.39],
-    scale: 0.88,
-  });
+  // const { positiomDisk, scaleDisk } = useControls({
+  //   positiom: [-0.21, 0.06, 0.39],
+  //   scale: 0.88,
+  // });
 
   function handleClick(event, vinylPlay) {
     event.stopPropagation();
     setVinylPlay(!vinylPlay);
     setCurrentPlaying({
-      text: window.track.name + " - " + window.track.artist,
+      text: track.name + " - " + track.artist,
       playStatus: !vinylPlay,
     });
   }

@@ -1,47 +1,50 @@
 import { Plane } from "@react-three/drei";
 import { useLoader } from "@react-three/fiber";
-import React, { useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { TextureLoader } from "three";
 import * as THREE from "three";
 import { useControls } from "leva";
+import { PlayerContext, PlayerDispatchContext } from "./PlayerContext";
 
-export default function DiskPlane(playingTrack, key, song, artist, name) {
-  const texture = useLoader(TextureLoader, Object.values(playingTrack)[0]);
-  const position = Object.values(playingTrack)[1];
-  const rotation = Object.values(playingTrack)[2];
-
+export default function DiskPlane({ playingTrack, id, song, artist, name }) {
+  const texture = useLoader(TextureLoader, playingTrack);
   const diskRef = useRef();
 
-  // const { diskRotation, diskPosition } = useControls({
-  //   diskRotation: rotation,
-  //   diskPosition: position,
-  // });
+  const dispatch = useContext(PlayerDispatchContext);
+
+  const angle = Math.random() * Math.PI * 2;
+  const radius = 2.4 + Math.random() * 3;
+  let x = Math.sin(angle) * radius;
+  let z = Math.cos(angle) * radius;
+
+  let y = Math.random() * (0.38 - 0.4) + 0.38;
+  let rotation = (Math.random() - 0.5) * 4;
+  let position = [x, -y, z];
 
   function setTrack(song, artist, name) {
-    window.track = {
-      song: song,
-      artist: artist,
-      name: name,
-    };
+    dispatch({
+      type: "update",
+      payload: {
+        song,
+        artist,
+        name,
+      },
+    });
   }
 
   const clickEventHandler = () => {
-    setTrack(
-      Object.values(playingTrack)[3],
-      Object.values(playingTrack)[4],
-      Object.values(playingTrack)[5]
-    );
+    setTrack(song, artist, name);
   };
 
   return (
     <Plane
       onClick={clickEventHandler}
-      key={key}
+      key={id}
       position={position}
-      rotation={rotation}
+      rotation={[-Math.PI / 2, 0, rotation]}
       scale={1.5}
       ref={diskRef}
-      name={"disk " + Object.values(playingTrack)[5]}
+      name={"disk " + name}
     >
       <meshStandardMaterial
         map={texture}
