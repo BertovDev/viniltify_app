@@ -19,15 +19,15 @@ export function TurntableModel({ handleClick, isPlaying }, props) {
   const rotation = [0, 1.5, 0];
   const scale = 2.1;
 
-  const { auxPos, auxRot, auxScale } = useControls({
-    auxPos: position,
-    auxRot: rotation,
-    auxScale: scale,
-  });
+  // const { auxPos, auxRot, auxScale } = useControls({
+  //   auxPos: position,
+  //   auxRot: rotation,
+  //   auxScale: scale,
+  // });
 
-  const { armRot } = useControls({
-    armRot: [0, 0, 0],
-  });
+  // const { armRot } = useControls({
+  //   armRot: [0, 0, 0],
+  // });
 
   useFrame(() => {
     if (isPlaying && armRef.current.children[0].rotation.y > -0.47) {

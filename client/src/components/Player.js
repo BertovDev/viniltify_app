@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
+import { PlayerContext } from "./PlayerContext";
 
-export default function Player({
-  accessToken,
-  trackUri,
-  currentPlaying,
-  setCurrentPlaying,
-}) {
+export default function Player({ accessToken, currentPlaying }) {
+  const { song } = useContext(PlayerContext);
+
   if (!accessToken) return null;
   return (
     <SpotifyPlayer
       token={accessToken}
       showSaveIcon
       initialVolume={0.1}
-      callback={(state) => {
-        if (!state.isPlaying)
-          setCurrentPlaying({ text: currentPlaying.text, playStatus: false });
-      }}
       play={currentPlaying.playStatus}
-      uris={[window.track?.song]}
+      uris={[song]}
     />
   );
 }

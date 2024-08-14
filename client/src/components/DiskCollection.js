@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { createDiskCollection } from "../three/CreateDiskCollection";
-import { musicTracks } from "../three/CreateDiskCollection";
 import { DiskAnimation, FrontToFloorAnimation } from "../three/Animations";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { changePointer } from "../Utils";
+import DiskPlane from "./DiskPlane";
 
 export default function DiskCollection({ token }) {
   let FRONT_VINYL_POSITION = new THREE.Vector3(-2.6, -0.3, 0.8);
@@ -40,9 +39,18 @@ export default function DiskCollection({ token }) {
 
     fetchPlaylist().then((res) => {
       res.items.map((track) => {
-        auxPlaylistTracks.push(track.track);
+        auxPlaylistTracks.push(
+          <DiskPlane
+            key={track.track.id}
+            id={track.track.id}
+            playingTrack={track.track.album.images[0].url}
+            song={track.track.uri}
+            artist={track.track.artists[0].name}
+            name={track.track.name}
+          />
+        );
       });
-      setDiskArray(createDiskCollection(auxPlaylistTracks));
+      setDiskArray(auxPlaylistTracks);
     });
   }, []);
 

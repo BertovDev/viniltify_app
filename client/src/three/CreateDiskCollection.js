@@ -48,27 +48,10 @@ export function createDiskCollection(playlist) {
   let array = [];
 
   playlist.forEach((el, index) => {
-    const angle = Math.random() * Math.PI * 2;
-    const radius = 2.4 + Math.random() * 3;
-    let x = Math.sin(angle) * radius;
-    let z = Math.cos(angle) * radius;
-
-    let y = Math.random() * (0.38 - 0.4) + 0.38;
-    let rotation = (Math.random() - 0.5) * 4;
-
-    if (index == musicTracks.length - 1) {
-      x = 3;
-      y = 0.38;
-      z = -2;
-      rotation = -0.8;
-    }
-
     array.push(
       <DiskPlane
         key={el.id}
         playingTrack={el.album.images[0].url}
-        position={[x, -y, z]}
-        rotation={[-Math.PI / 2, 0, rotation]}
         song={el.uri}
         artist={el.artists[0].name}
         name={el.name}
