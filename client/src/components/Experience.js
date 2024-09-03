@@ -1,24 +1,15 @@
-import React, {
-  useState,
-  useEffect,
-  Suspense,
-  useRef,
-  useContext,
-  useReducer,
-} from "react";
+import React, { useState, Suspense, useReducer } from "react";
 import PlayerHeader from "./PlayerHeader";
 import { checkMobile } from "../Utils";
 
 import { Canvas } from "@react-three/fiber";
 import { Loader } from "@react-three/drei";
 import { ModelsManager } from "../modelCode/ModelsManager";
-import {
-  PlayerDispatchContext,
-  PlayerContext,
-  PlayerProvider,
-} from "./PlayerContext";
+import { PlayerDispatchContext, PlayerContext } from "./PlayerContext";
 
 import DiskCollection from "./DiskCollection";
+import { Leva } from "leva";
+import { Perf } from "r3f-perf";
 
 export default function Experience({ token }) {
   const [currentPlaying, setCurrentPlaying] = useState({
@@ -38,6 +29,7 @@ export default function Experience({ token }) {
       </PlayerContext.Provider>
 
       {/* ThreeJs code  */}
+      <Leva collapsed />
       <Canvas
         style={{ height: "100vh", background: "black" }}
         camera={{
@@ -49,6 +41,8 @@ export default function Experience({ token }) {
         }}
         shadows
       >
+        <Perf position="top-left" />
+
         <directionalLight intensity={0.4} castShadow color="white" />
         <Suspense fallback={null}>
           <PlayerContext.Provider value={song}>
