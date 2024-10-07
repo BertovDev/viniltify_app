@@ -41,7 +41,7 @@ export default function Experience({ token }) {
         }}
         shadows
       >
-        <Perf position="top-left" />
+        {/* <Perf position="top-left" /> */}
 
         <directionalLight intensity={0.4} castShadow color="white" />
         <Suspense fallback={null}>
