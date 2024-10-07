@@ -8,13 +8,17 @@ import { ModelsManager } from "../modelCode/ModelsManager";
 import { PlayerDispatchContext, PlayerContext } from "./PlayerContext";
 
 import DiskCollection from "./DiskCollection";
-import { Leva } from "leva";
+import { Leva, useControls } from "leva";
 import { Perf } from "r3f-perf";
 
 export default function Experience({ token }) {
   const [currentPlaying, setCurrentPlaying] = useState({
     text: "",
     playStatus: false,
+  });
+
+  const { perfVisible } = useControls({
+    perfVisible: true,
   });
 
   const [song, dispatch] = useReducer(songReducer, initialSong);
@@ -41,8 +45,7 @@ export default function Experience({ token }) {
         }}
         shadows
       >
-        {/* <Perf position="top-left" /> */}
-
+        {perfVisible && <Perf position="top-left" />}
         <directionalLight intensity={0.4} castShadow color="white" />
         <Suspense fallback={null}>
           <PlayerContext.Provider value={song}>
