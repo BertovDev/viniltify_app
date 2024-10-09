@@ -10,7 +10,7 @@ const LOGIN_URI =
 
 export default function Login() {
   return (
-    <Container
+    <div
       className="d-flex flex-column justify-content-between align-items-center"
       style={{
         minHeight: "100vh",
@@ -24,7 +24,7 @@ export default function Login() {
           <Button className="button">
             <a href={"http://localhost:3001/auth/login"}>Login with Spotify</a>
           </Button>
-          <div>
+          <div className="button-and-input">
             <Button className="button">
               <a href={"http://localhost:3001/auth/login"}>Request access</a>
             </Button>
@@ -36,6 +36,8 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <img src="images/Vector.png" alt="vector" className="vinylVector" />
+
       <div className="header">
         <div className="icons">
           <a
@@ -97,6 +99,6 @@ export default function Login() {
           </a>
         </Col>
       </Row> */}
-    </Container>
+    </div>
   );
 }

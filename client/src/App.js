@@ -18,7 +18,8 @@ function App() {
     getToken();
   }, []);
 
-  return <>{token === "" ? <Login /> : <Experience token={token} />};</>;
+  // return <>{token === "" ? <Login /> : <Experience token={token} />};</>;
+  return <Login />;
 }
 
 export default App;
