@@ -32,6 +32,7 @@ The local server run in the port 3001 and the application runs in the port 3000,
 
 Your redirect URI created in the [spotify-dashboard](https://developer.spotify.com/dashboard/login "spotify dashboard") must match your REDIRECT_URI in the .env file!
 
+![Screenshot_2024-10-08_22-37-56](https://github.com/user-attachments/assets/40084b22-02a5-4432-be43-2f02d2ffd248)
 
 ![Screenshot_2024-08-11_22-19-47](https://github.com/user-attachments/assets/b91f1134-c9ab-4d24-a6bb-0a5b3623e5ba)
 ![Screenshot_2024-08-11_23-02-01](https://github.com/user-attachments/assets/fcf407a4-8837-42d3-9a7a-59252053d4a3)
