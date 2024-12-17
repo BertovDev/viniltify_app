@@ -6,10 +6,17 @@ import { Canvas } from "@react-three/fiber";
 import { Loader } from "@react-three/drei";
 import { ModelsManager } from "../modelCode/ModelsManager";
 import { PlayerDispatchContext, PlayerContext } from "./PlayerContext";
+import {
+  Bloom,
+  DepthOfField,
+  EffectComposer,
+  Vignette,
+} from "@react-three/postprocessing";
 
 import DiskCollection from "./DiskCollection";
 import { Leva, useControls } from "leva";
 import { Perf } from "r3f-perf";
+import { Color } from "three";
 
 export default function Experience({ token }) {
   const [currentPlaying, setCurrentPlaying] = useState({
@@ -25,6 +32,12 @@ export default function Experience({ token }) {
 
   window.mobileCheck = checkMobile;
   let loaderFontSize = window.mobileCheck() ? "22px" : "30px";
+
+  const { color, color2, position } = useControls({
+    color: "#0048d8",
+    color2: "#ffffff",
+    position: [0, 1, 0],
+  });
 
   return (
     <>
@@ -46,7 +59,22 @@ export default function Experience({ token }) {
         shadows
       >
         {perfVisible && <Perf position="top-left" />}
-        <directionalLight intensity={0.4} castShadow color="white" />
+        <directionalLight intensity={2} castShadow color={color} />
+        <directionalLight
+          intensity={0.4}
+          castShadow
+          color={color2}
+          position={position}
+        />
+        <pointLight
+          distance={160}
+          intensity={0.2}
+          color="white"
+          position={[0, 1, 0]}
+        />
+
+        <pointLight distance={100} intensity={10} color="white" />
+        <fog attach="fog" args={["#000000", 1, 30]} />
         <Suspense fallback={null}>
           <PlayerContext.Provider value={song}>
             <PlayerDispatchContext.Provider value={dispatch}>
@@ -55,6 +83,16 @@ export default function Experience({ token }) {
             </PlayerDispatchContext.Provider>
           </PlayerContext.Provider>
         </Suspense>
+        <EffectComposer stencilBuffer={true}>
+          <Bloom
+            intensity={0.1}
+            luminanceThreshold={0.1}
+            luminanceSmoothing={0.9}
+            height={300}
+          />
+
+          <Vignette darkness={0.7} offset={0.3} />
+        </EffectComposer>
       </Canvas>
       <Loader
         containerStyles={{

@@ -1,7 +1,4 @@
-import { TWEEN } from "three/examples/jsm/libs/tween.module.min";
-import { Points, Point, PointMaterial } from "@react-three/drei";
-import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
+import TWEEN from "@tweenjs/tween.js";
 
 export function InitAnimation(camera, refControls) {
   new TWEEN.Tween(camera.position.set(0.1, 1.5, 1))

@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useGLTF, OrbitControls, useHelper } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
+import TWEEN from "@tweenjs/tween.js";
 import * as THREE from "three";
 import { InitAnimation } from "../three/Animations";
 import Lights from "../three/Lights";
-import { useControls } from "leva";
 import { TurntableModel } from "./TurntableModel";
 import TableAndRecord from "./TableAndRecord";
 import { PlayerContext } from "../components/PlayerContext";
@@ -40,7 +39,7 @@ export function ModelsManager({ setCurrentPlaying, props }) {
 
     document.body.style.cursor = "grab";
     refControls.current.enabled = true;
-    InitAnimation(camera, refControls);
+    // InitAnimation(camera, refControls);
   }, []);
 
   useFrame(() => {
@@ -56,6 +55,7 @@ export function ModelsManager({ setCurrentPlaying, props }) {
       });
     }
     if (clicked) {
+      refLight.current.rotation.y += 0.02;
       refDisk.current.rotation.y += animationSpeed - 0.02;
     }
 
