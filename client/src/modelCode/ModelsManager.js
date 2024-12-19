@@ -5,8 +5,7 @@ import * as THREE from "three";
 import { InitAnimation } from "../three/Animations";
 import Lights from "../three/Lights";
 import { TurntableModel } from "./TurntableModel";
-import TableAndRecord from "./TableAndRecord";
-import { NewVinyl } from "./NewVinyl";
+import Vinyl from "./NewVinyl";
 import { PlayerContext } from "../components/PlayerContext";
 import { useControls } from "leva";
 
@@ -59,11 +58,6 @@ export function ModelsManager({ setCurrentPlaying, props }) {
     }
   });
 
-  // const { positiomDisk, scaleDisk } = useControls({
-  //   positiom: [-0.21, 0.06, 0.39],
-  //   scale: 0.88,
-  // });
-
   function handleClick(event, vinylPlay) {
     event.stopPropagation();
     setVinylPlay(!vinylPlay);
@@ -89,8 +83,7 @@ export function ModelsManager({ setCurrentPlaying, props }) {
             handleClick={(event) => handleClick(event, vinylPlay)}
             isPlaying={vinylPlay}
           />
-          {/* <TableAndRecord ref={refDisk} /> */}
-          <NewVinyl />
+          <Vinyl ref={refDisk} />
         </group>
         <Lights />
       </group>

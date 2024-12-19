@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 
-export function NewVinyl(props) {
+const Vinyl = React.forwardRef((props, ref) => {
   const { nodes, materials } = useGLTF("/newVinyl.glb");
 
   const { position, scale } = useControls({
@@ -17,7 +17,7 @@ export function NewVinyl(props) {
 
   return (
     <group {...props} position={[-0.23, 0.06, 0.4]} dispose={null}>
-      <group scale={scale}>
+      <group scale={scale} ref={ref}>
         <mesh
           geometry={nodes.Cylinder002.geometry}
           material={materials["Material.001"]}
@@ -37,6 +37,8 @@ export function NewVinyl(props) {
       </group>
     </group>
   );
-}
+});
 
 useGLTF.preload("/newVinyl.glb");
+
+export default Vinyl;
