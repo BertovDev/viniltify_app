@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useGLTF, OrbitControls, useHelper } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import TWEEN from "@tweenjs/tween.js";
 import * as THREE from "three";
 import { InitAnimation } from "../three/Animations";
 import Lights from "../three/Lights";
@@ -23,7 +22,6 @@ export function ModelsManager({ setCurrentPlaying, props }) {
     name: songContext.name,
   });
 
-  const refLight = useRef();
   const refDisk = React.createRef();
   const refControls = useRef();
 
@@ -42,7 +40,7 @@ export function ModelsManager({ setCurrentPlaying, props }) {
     // InitAnimation(camera, refControls);
   }, []);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (songContext.song !== track.song) {
       setTrack({
         song: songContext.song,
@@ -55,11 +53,8 @@ export function ModelsManager({ setCurrentPlaying, props }) {
       });
     }
     if (clicked) {
-      refLight.current.rotation.y += 0.02;
       refDisk.current.rotation.y += animationSpeed - 0.02;
     }
-
-    TWEEN.update();
   });
 
   // const { positiomDisk, scaleDisk } = useControls({
@@ -92,7 +87,7 @@ export function ModelsManager({ setCurrentPlaying, props }) {
           isPlaying={vinylPlay}
         />
         <TableAndRecord ref={refDisk} />
-        <Lights refLight={refLight} />
+        <Lights />
       </group>
     </>
   );
