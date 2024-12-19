@@ -45,7 +45,7 @@ export default function Experience({ token }) {
     positionY: { value: 3.0, min: -10, max: 10 },
     positionZ: { value: 0, min: -10, max: 10 },
     decay: { value: 0.0, min: 0, max: 10 },
-    distance: { value: 5.6, min: 0, max: 10 },
+    distance: { value: 6.5, min: 0, max: 10 },
   });
 
   const light1Controls = useControls("Light 3", {
@@ -57,13 +57,6 @@ export default function Experience({ token }) {
     penumbra: { value: 1, min: 0, max: 1 },
     distance: { value: 5.8, min: -10, max: 10 },
     color: "#1b0b3a",
-  });
-
-  const bloom = useControls("bloom", {
-    intensity: { value: 1.7, min: 0, max: 10 },
-    luminanceThreshold: { value: 0.1, min: 0, max: 10 },
-    luminanceSmoothing: { value: 0.9, min: 0, max: 10 },
-    height: { value: 300, min: 0, max: 1000 },
   });
 
   return (
@@ -79,20 +72,12 @@ export default function Experience({ token }) {
         camera={{
           position: [0.3, 3, 5],
           fov: window.mobileCheck() ? 80 : 60,
-          rotation: [
-            -0.5404195002705843, 0.051404250823021816, 0.03081920793238793,
-          ],
+          rotation: [0, 0, 0],
         }}
         shadows
       >
         {perfVisible && <Perf position="top-left" />}
         <directionalLight intensity={5} castShadow color={color} />
-        {/* <directionalLight
-          intensity={0.6}
-          castShadow
-          color={color2}
-          position={position}
-        /> */}
 
         <SpotLight
           intensity={light1Controls.intensity}
@@ -127,14 +112,7 @@ export default function Experience({ token }) {
           </PlayerContext.Provider>
         </Suspense>
         <EffectComposer stencilBuffer={true}>
-          {/* <Bloom
-            intensity={bloom.intensity}
-            luminanceThreshold={bloom.luminanceThreshold}
-            luminanceSmoothing={bloom.luminanceSmoothing}
-            height={bloom.height}
-          /> */}
-
-          <Vignette darkness={0.7} offset={0.3} />
+          <Vignette darkness={0.5} offset={0.3} />
         </EffectComposer>
       </Canvas>
       <Loader

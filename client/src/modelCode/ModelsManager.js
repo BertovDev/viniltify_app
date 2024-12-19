@@ -6,7 +6,9 @@ import { InitAnimation } from "../three/Animations";
 import Lights from "../three/Lights";
 import { TurntableModel } from "./TurntableModel";
 import TableAndRecord from "./TableAndRecord";
+import { NewVinyl } from "./NewVinyl";
 import { PlayerContext } from "../components/PlayerContext";
+import { useControls } from "leva";
 
 export function ModelsManager({ setCurrentPlaying, props }) {
   const animationSpeed = 0.04;
@@ -82,11 +84,14 @@ export function ModelsManager({ setCurrentPlaying, props }) {
           zoomSpeed={2}
         />
 
-        <TurntableModel
-          handleClick={(event) => handleClick(event, vinylPlay)}
-          isPlaying={vinylPlay}
-        />
-        <TableAndRecord ref={refDisk} />
+        <group position={[0, 0, -0.5]}>
+          <TurntableModel
+            handleClick={(event) => handleClick(event, vinylPlay)}
+            isPlaying={vinylPlay}
+          />
+          {/* <TableAndRecord ref={refDisk} /> */}
+          <NewVinyl />
+        </group>
         <Lights />
       </group>
     </>
