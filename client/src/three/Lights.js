@@ -32,24 +32,30 @@ export default function Lights() {
     const directionY = target.y / Math.abs(target.y);
     const directionX = target.x / Math.abs(target.x);
 
+    // Calculate mouse position in world space
     const mouseX = (pointer.x * viewport.width) / 2;
     const mouseY = pointer.y * 10 * directionZ;
 
-    console.log(directionX, directionY, directionZ);
+    // Define camera orientation states
+    const isCameraFacingBack = directionX === -1 && directionY === -1;
+    const isCameraFacingForward = directionZ === 1;
 
-    if (directionX === -1 && directionY === -1 && directionZ === -1) {
-      light1.current.position.z = mouseY;
-      light1.current.position.x = mouseX;
-    } else if (directionX === -1 && directionY === -1 && directionZ === 1) {
-      light1.current.position.x = -mouseY;
-      light1.current.position.z = -mouseX;
-    } else if (directionX === 1 && directionY === -1 && directionZ === 1) {
-      light1.current.position.z = mouseX;
-      light1.current.position.x = mouseY;
-    } else {
-      light1.current.position.x = mouseX;
-      light1.current.position.z = mouseY;
+    // Determine light position adjustments based on camera orientation
+    let lightPositionX = mouseX;
+    let lightPositionZ = mouseY;
+
+    if (isCameraFacingBack) {
+      if (isCameraFacingForward) {
+        lightPositionX = -mouseY;
+        lightPositionZ = -mouseX;
+      }
+    } else if (isCameraFacingForward) {
+      lightPositionX = mouseY;
+      lightPositionZ = mouseX;
     }
+
+    light1.current.position.x = lightPositionX;
+    light1.current.position.z = lightPositionZ;
   });
 
   return (
