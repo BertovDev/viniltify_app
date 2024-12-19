@@ -8,6 +8,7 @@ import { useGLTF } from "@react-three/drei";
 
 const TableAndRecord = React.forwardRef((props, ref) => {
   const { nodes, materials } = useGLTF("/tableAndDisk.glb");
+
   return (
     <group {...props} dispose={null}>
       <group
@@ -34,7 +35,7 @@ const TableAndRecord = React.forwardRef((props, ref) => {
       <mesh
         receiveShadow
         geometry={nodes.Plane.geometry}
-        material={materials.tABLE}
+        material={materials.Record}
         scale={3}
         position={[0, -0.39, 0]}
         name="Table"
