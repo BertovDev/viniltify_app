@@ -12,22 +12,10 @@ import { changePointer } from "../Utils";
 export function TurntableModel({ handleClick, isPlaying }, props) {
   const { nodes, materials } = useGLTF("turntable/turntableFinal3.glb");
   const armRef = useRef();
-  // const coverRef = useRef();
-  // const [handleCover, setHandleCover] = useState(false);
 
   const position = [0.08, -0.19, -0.14];
   const rotation = [0, 1.5, 0];
   const scale = 2.1;
-
-  // const { auxPos, auxRot, auxScale } = useControls({
-  //   auxPos: position,
-  //   auxRot: rotation,
-  //   auxScale: scale,
-  // });
-
-  // const { armRot } = useControls({
-  //   armRot: [0, 0, 0],
-  // });
 
   useFrame(() => {
     if (isPlaying && armRef.current.children[0].rotation.y > -0.47) {
@@ -41,20 +29,6 @@ export function TurntableModel({ handleClick, isPlaying }, props) {
         el.rotation.y += 0.04;
       });
     }
-
-    // if (
-    //   handleCover &&
-    //   Math.round(coverRef.current.rotation.z * 100) / 100 < 0.77
-    // ) {
-    //   coverRef.current.rotation.z += 0.05;
-    // }
-
-    // if (
-    //   !handleCover &&
-    //   Math.round(coverRef.current.rotation.z * 100) / 100 > 0
-    // ) {
-    //   coverRef.current.rotation.z -= 0.05;
-    // }
   }, [isPlaying]);
 
   return (
