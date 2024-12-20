@@ -67,3 +67,30 @@ export function FrontToFloorAnimation(
     ease: "power4.inOut",
   });
 }
+
+export function InitAnimation(camera, refControls) {
+  // Set initial camera position
+  camera.position.set(0.1, 1.5, 1);
+  camera.rotation.x -= 0.5;
+
+  // Camera position animation
+  gsap.to(camera.position, {
+    x: 0.3,
+    y: 3,
+    z: 5,
+    duration: 5.5,
+    delay: 1,
+    ease: "power4.inOut",
+    onComplete: () => {
+      refControls.current.enabled = true;
+    },
+  });
+
+  // Camera rotation animation
+  gsap.to(camera.rotation, {
+    x: -0.5404195002705843,
+    duration: 5.5,
+    delay: 1,
+    ease: "power4.inOut",
+  });
+}
