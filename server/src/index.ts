@@ -25,7 +25,9 @@ app.get("/auth/login", (c) => {
                user-read-private \
                playlist-modify-public \
                user-read-playback-state \
-               user-modify-playback-state";
+               user-modify-playback-state \
+               user-library-read \
+               playlist-modify-private";
 
   let state = generateRandomString(16);
 
