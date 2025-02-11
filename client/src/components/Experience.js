@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useReducer, useRef } from "react";
+import React, { useState, Suspense, useReducer } from "react";
 import PlayerHeader from "./PlayerHeader";
 import { checkMobile } from "../Utils";
 
@@ -6,17 +6,11 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Loader, SpotLight, usePerformanceMonitor } from "@react-three/drei";
 import { ModelsManager } from "../modelCode/ModelsManager";
 import { PlayerDispatchContext, PlayerContext } from "./PlayerContext";
-import {
-  Bloom,
-  DepthOfField,
-  EffectComposer,
-  Vignette,
-} from "@react-three/postprocessing";
+import { EffectComposer, Vignette } from "@react-three/postprocessing";
 
 import DiskCollection from "./DiskCollection";
 import { Leva, useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { Color } from "three";
 
 export default function Experience({ token }) {
   const [currentPlaying, setCurrentPlaying] = useState({
@@ -25,7 +19,7 @@ export default function Experience({ token }) {
   });
 
   const { perfVisible } = useControls({
-    perfVisible: true,
+    perfVisible: false,
   });
 
   const [song, dispatch] = useReducer(songReducer, initialSong);
@@ -71,7 +65,7 @@ export default function Experience({ token }) {
         style={{ height: "100vh", background: "black" }}
         camera={{
           position: [0.3, 3, 5],
-          fov: window.mobileCheck() ? 80 : 60,
+          fov: window.mobileCheck() ? 80 : 70,
           rotation: [0, 0, 0],
         }}
         shadows
@@ -121,8 +115,7 @@ export default function Experience({ token }) {
         }}
         dataInterpolation={(p) => `
           Loading ${p.toFixed(2)}%
-          ☝️🤓 A compilation of some of my favorite songs...
-          You can move the screen by pressing it down and move
+          ☝️🤓 Loading your spotify songs...
         `} // Text
         innerStyles={{
           fontSize: loaderFontSize,

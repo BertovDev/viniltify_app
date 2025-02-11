@@ -1,9 +1,8 @@
 import { Plane } from "@react-three/drei";
 import { useLoader } from "@react-three/fiber";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { TextureLoader } from "three";
 import * as THREE from "three";
-import { useControls } from "leva";
 import { PlayerContext, PlayerDispatchContext } from "./PlayerContext";
 
 export default function DiskPlane({ playingTrack, id, song, artist, name }) {

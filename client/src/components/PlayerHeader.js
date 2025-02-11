@@ -39,7 +39,7 @@ export default function PlayerHeader({ currentPlaying, token }) {
             fontFamily: "monospace",
           }}
         >
-          ☝️🤓 Click/touch a vinyl and then the turntable lever to play the song
+          ☝️🤓 Interact with the vinyl or the turntable!
         </Col>
         <Col style={{ display: "none" }}>
           <Player accessToken={token} currentPlaying={currentPlaying} />
