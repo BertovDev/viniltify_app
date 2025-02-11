@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.4.1 public/turntable/turntableFinal3.glb
 */
 
 import React, { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import { useFrame } from "@react-three/fiber";
 import { changePointer } from "../Utils";
@@ -12,6 +12,8 @@ import { changePointer } from "../Utils";
 export function TurntableModel({ handleClick, isPlaying }, props) {
   const { nodes, materials } = useGLTF("turntable/turntableFinal3.glb");
   const armRef = useRef();
+
+  const [armHovered, setArmHovered] = useState(false);
 
   const position = [0.08, -0.19, -0.14];
   const rotation = [0, 1.5, 0];
@@ -110,39 +112,57 @@ export function TurntableModel({ handleClick, isPlaying }, props) {
             name="Arm"
             onClick={handleClick}
             ref={armRef}
-            onPointerOver={() => changePointer(true)}
-            onPointerLeave={() => changePointer(false)}
+            onPointerOver={() => {
+              changePointer(true);
+              setArmHovered(true);
+            }}
+            onPointerLeave={() => {
+              changePointer(false);
+              setArmHovered(false);
+            }}
           >
             <mesh
               geometry={nodes.bras_lambert1_0.geometry}
               material={materials["lambert1.001"]}
               position={[3.056, -0.036, 5.65]}
-            />
+            >
+              {armHovered && <Outlines thickness={0.5} color="white" />}
+            </mesh>
             <mesh
               geometry={nodes.tete_lambert1_0.geometry}
               material={materials["lambert1.001"]}
               position={[3.057, -0.036, 5.648]}
-            />
+            >
+              {armHovered && <Outlines thickness={0.5} color="white" />}
+            </mesh>
             <mesh
               geometry={nodes.pointe1_lambert1_0.geometry}
               material={materials["lambert1.001"]}
               position={[3.057, -0.036, 5.648]}
-            />
+            >
+              {armHovered && <Outlines thickness={0.5} color="white" />}
+            </mesh>
             <mesh
               geometry={nodes.base1_lambert1_0.geometry}
               material={materials["lambert1.001"]}
               position={[3.057, -0.036, 5.648]}
-            />
+            >
+              {armHovered && <Outlines thickness={0.5} color="white" />}
+            </mesh>
             <mesh
               geometry={nodes.contre_poids_lambert1_0.geometry}
               material={materials["lambert1.001"]}
               position={[3.057, -0.036, 5.648]}
-            />
+            >
+              {armHovered && <Outlines thickness={0.5} color="white" />}
+            </mesh>
             <mesh
               geometry={nodes.pivot_bras_lambert1_0.geometry}
               material={materials["lambert1.001"]}
               position={[3.056, -0.036, 5.65]}
-            />
+            >
+              {armHovered && <Outlines thickness={0.5} color="white" />}
+            </mesh>
           </group>
           {/* <group position={[-0.042, 0.019, 0]}>
             <mesh
