@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useReducer, useRef } from "react";
+import React, { useState, Suspense, useReducer } from "react";
 import PlayerHeader from "./PlayerHeader";
 import { checkMobile } from "../Utils";
 
@@ -6,17 +6,11 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Loader, SpotLight, usePerformanceMonitor } from "@react-three/drei";
 import { ModelsManager } from "../modelCode/ModelsManager";
 import { PlayerDispatchContext, PlayerContext } from "./PlayerContext";
-import {
-  Bloom,
-  DepthOfField,
-  EffectComposer,
-  Vignette,
-} from "@react-three/postprocessing";
+import { EffectComposer, Vignette } from "@react-three/postprocessing";
 
 import DiskCollection from "./DiskCollection";
 import { Leva, useControls } from "leva";
 import { Perf } from "r3f-perf";
-import { Color } from "three";
 
 export default function Experience({ token }) {
   const [currentPlaying, setCurrentPlaying] = useState({
